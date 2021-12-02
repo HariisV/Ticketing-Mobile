@@ -1,6 +1,14 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, Button } from 'react-native';
-import Icon from "react-native-vector-icons/FontAwesome"
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Button,
+} from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 function App() {
   return (
     // <ScrollView>
@@ -9,10 +17,10 @@ function App() {
     //   {/* <Icon name="facebook" style={styles.textMedium}>Facebook X</Icon> */ }
     <View style={styles.container}>
       <View style={styles.header}>
-        <View style={{ backgroundColor: "pink", flex: 1 }}>
+        <View style={{backgroundColor: 'pink', flex: 1}}>
           <Text>Left Side</Text>
         </View>
-        <View style={{ backgroundColor: "blue", flex: 1 }}>
+        <View style={{backgroundColor: 'blue', flex: 1}}>
           <Text>Rgith Side</Text>
         </View>
       </View>
@@ -22,7 +30,6 @@ function App() {
       <View style={styles.footer}>
         <Text>Footer</Text>
       </View>
-
     </View>
     // </ScrollView>
   );
@@ -34,25 +41,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'blue',
-    margin: 10
+    margin: 10,
   },
   header: {
     flex: 1,
     width: '100%',
     flexDirection: 'row',
-    backgroundColor: 'red'
+    backgroundColor: 'red',
   },
   main: {
     flex: 4,
     width: '100%',
     flexDirection: 'row',
-    backgroundColor: 'green'
+    backgroundColor: 'green',
   },
   footer: {
     flex: 1,
     width: '100%',
-    backgroundColor: 'green'
-  }
-})
+    backgroundColor: 'green',
+  },
+});
 
 export default App;
