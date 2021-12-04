@@ -16,12 +16,24 @@ import {
 } from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Feather';
-
+const pp = [1, 2, 3, 4, 5, 6, 7, 8];
 const DetailMovie = props => {
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState('');
   console.log(date);
+  const handleBook = () => {
+    console.log(props.navigation.navigate('OrderMovie'));
+    // props.navigation.navigate('AppScreen', {
+    //   screen: 'OrderMovie',
+    // });
+    // props.navigation
+    props.navigation.navigate('OrderMovie', {
+      params: {
+        nama: 'Bagus TH',
+      },
+    });
+  };
   let selectedDate = moment(date).format('DD/MM/YYYY');
   return (
     <SafeAreaView style={styles.container}>
@@ -73,18 +85,16 @@ const DetailMovie = props => {
         </View>
         <View style={styles.showtimesContainer}>
           <Text style={styles.scheduleTitle}>Showtimes and Tickets</Text>
+
           <Picker
-            // selectedValue={selectedValue}
-            style={{height: 50, width: 150}}
+            style={styles.inputTimes}
+            selectedValue={selectedValue}
             onValueChange={(itemValue, itemIndex) =>
               setSelectedValue(itemValue)
             }>
-            <Picker.Item label="Java" value="java" />
-            <Picker.Item label="JavaScript" value="js" />
+            <Picker.Item label="Aceh" value="java" />
+            <Picker.Item label="Makasar" value="js" />
           </Picker>
-          <TextInput style={styles.inputTimes}>
-            <Text> Set a date</Text>
-          </TextInput>
 
           <Pressable onPress={() => setOpen(true)}>
             <View pointerEvents="none">
@@ -97,27 +107,35 @@ const DetailMovie = props => {
           </Pressable>
         </View>
         <View>
-          <View style={styles.scheduleContainer}>
-            <Image source={require('../../assets/images/sponsor1.png')} />
-            <Text>Whatever street No.12, South Purwokerto</Text>
-            {/* HR */}
-            <View>
-              <Text>08:30am</Text>
-              <Text>08:30am</Text>
-              <Text>08:30am</Text>
-              <Text>08:30am</Text>
-              <Text>08:30am</Text>
-              <Text>08:30am</Text>
-              <Text>08:30am</Text>
-              <Text>08:30am</Text>
+          <View style={styles.scheduleCard}>
+            <View style={styles.scheduleImageContainer}>
+              <Image
+                style={styles.scheduleImage}
+                source={require('../../assets/images/sponsor1.png')}
+              />
+              <Text style={styles.scheduleAddress}>
+                Whatever street No.12, South Purwokerto
+              </Text>
             </View>
-            <View>
-              <Text>Price</Text>
-              <Text>$10.00/seat</Text>
+            <View style={styles.scheduleList}>
+              {pp.map(e => {
+                return (
+                  // <View style={styles.scheduleListItem}>
+                  <Text key={e} style={styles.scheduleListItem}>
+                    {e}8:30am
+                  </Text>
+                  // {/* </View> */}
+                );
+              })}
             </View>
-            <TouchableOpacity style={styles.buttonJoin}>
-              <Text style={{color: 'white'}}>Join Now</Text>
+            <View style={styles.schedulePriceContainer}>
+              <Text style={styles.schedulePrice}>Price</Text>
+              <Text style={styles.schedulvePriceValue}>$10.00/seat</Text>
+            </View>
+            <TouchableOpacity style={styles.buttonBook} onPress={handleBook}>
+              <Text style={styles.buttonBookText}>Book Now</Text>
             </TouchableOpacity>
+            <View></View>
           </View>
         </View>
         <DatePicker
@@ -169,13 +187,23 @@ const styles = StyleSheet.create({
     height: 400,
     resizeMode: 'contain',
   },
-  buttonJoin: {
+  buttonBook: {
     backgroundColor: '#5F2EEA',
     padding: 15,
-    borderRadius: 15,
+    borderRadius: 5,
     paddingHorizontal: '38%',
     marginBottom: 30,
+    elevation: 9,
+    shadowOffset: {width: 0, height: 0},
+    shadowOpacity: 51.1,
+    shadowRadius: 5,
   },
+  buttonBookText: {
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 16,
+  },
+
   textJoin: {
     textAlign: 'center',
     marginHorizontal: 40,
@@ -270,6 +298,71 @@ const styles = StyleSheet.create({
     // position: 'absolute',
     // top: 30,
     color: 'black',
+  },
+  scheduleCard: {
+    borderColor: '#EFF0F6',
+    borderWidth: 2,
+    padding: 30,
+    marginTop: 30,
+    marginBottom: 20,
+    borderRadius: 20,
+    elevation: 5,
+    shadowOffset: {width: 0, height: 0},
+    shadowOpacity: 541,
+    shadowRadius: 244,
+    backgroundColor: 'white',
+    display: 'flex',
+    // marginHorizontal: 20,
+
+    // alignItems: 'center',
+  },
+  scheduleImageContainer: {
+    alignItems: 'center',
+  },
+  scheduleImage: {
+    width: 100,
+    height: 50,
+    marginBottom: 10,
+    padding: 0,
+    margin: 0,
+    resizeMode: 'contain',
+  },
+  scheduleList: {
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  scheduleListItem: {
+    marginRight: '6%',
+    marginTop: 20,
+    flexWrap: 'nowrap',
+    color: '#A0A3BD',
+    color: '#4E4B66',
+    fontSize: 15,
+    fontFamily: 'Mulish-Reguler',
+    fontWeight: '600',
+  },
+  scheduleAddress: {
+    fontSize: 17,
+    width: 230,
+    textAlign: 'center',
+    fontFamily: 'Mulish-Reguler',
+    fontWeight: '600',
+  },
+  schedulePriceContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: 25,
+  },
+  schedulePrice: {
+    fontSize: 18,
+  },
+  schedulvePriceValue: {
+    fontSize: 18,
+    fontFamily: 'Mulish-Reguler',
+    color: 'black',
+    fontWeight: '700',
+    marginRight: 20,
   },
 });
 
