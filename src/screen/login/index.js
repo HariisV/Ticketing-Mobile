@@ -6,7 +6,7 @@ import {Text} from 'react-native-elements';
 
 const Login = props => {
   const handleChangePage = () => {
-    props.navigation.navigate('Register');
+    props.navigation.navigate('AppScreen', {screen: 'home'});
     console.log('HAI');
   };
   return (
@@ -24,6 +24,7 @@ const Login = props => {
 
         <View style={{width: '100%'}}>
           <Button
+            onPress={handleChangePage}
             title="Join for free"
             buttonStyle={{
               backgroundColor: '#5F2EEA',

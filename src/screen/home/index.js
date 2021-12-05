@@ -20,12 +20,12 @@ function App(props) {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar
+      {/* <StatusBar
         animated={true}
         // backgroundColor="#D6D8E7"
         barStyle="dark-content"
         showHideTransition="fade"
-      />
+      /> */}
 
       <ScrollView style={styles.scrollView}>
         <View>
@@ -114,12 +114,12 @@ function App(props) {
                   <Text style={styles.genreUpcoming}>
                     Action, Adventure, Sci-Fi
                   </Text>
-                  <Button
-                    title="detail"
-                    onPress={viewMovie}
-                    type="outline"
-                    buttonStyle={styles.buttonDetail}
-                  />
+
+                  <TouchableOpacity
+                    style={styles.buttonDetail}
+                    onPress={viewMovie}>
+                    <Text style={styles.textButtonDetail}>Details</Text>
+                  </TouchableOpacity>
                 </View>
                 <View style={styles.cardUpcoming}>
                   <Image
@@ -130,27 +130,76 @@ function App(props) {
                   <Text style={styles.genreUpcoming}>
                     Action, Adventure, Sci-Fi
                   </Text>
-                  <TouchableOpacity style={styles.buttonDetail}>
+
+                  <TouchableOpacity
+                    style={styles.buttonDetail}
+                    onPress={viewMovie}>
                     <Text style={styles.textButtonDetail}>Details</Text>
                   </TouchableOpacity>
                 </View>
                 <View style={styles.cardUpcoming}>
                   <Image
-                    source={require('../../assets/images/movie1.png')}
+                    source={require('../../assets/images/movie3.png')}
                     style={styles.upcomingImage}
                   />
+                  <Text style={styles.titleUpcoming}>Black Widow</Text>
+                  <Text style={styles.genreUpcoming}>
+                    Action, Adventure, Sci-Fi
+                  </Text>
+
+                  <TouchableOpacity
+                    style={styles.buttonDetail}
+                    onPress={viewMovie}>
+                    <Text style={styles.textButtonDetail}>Details</Text>
+                  </TouchableOpacity>
                 </View>
                 <View style={styles.cardUpcoming}>
                   <Image
-                    source={require('../../assets/images/movie1.png')}
+                    source={require('../../assets/images/movie4.png')}
                     style={styles.upcomingImage}
                   />
+                  <Text style={styles.titleUpcoming}>Black Widow</Text>
+                  <Text style={styles.genreUpcoming}>
+                    Action, Adventure, Sci-Fi
+                  </Text>
+
+                  <TouchableOpacity
+                    style={styles.buttonDetail}
+                    onPress={viewMovie}>
+                    <Text style={styles.textButtonDetail}>Details</Text>
+                  </TouchableOpacity>
                 </View>
                 <View style={styles.cardUpcoming}>
                   <Image
-                    source={require('../../assets/images/movie1.png')}
+                    source={require('../../assets/images/movie5.png')}
                     style={styles.upcomingImage}
                   />
+                  <Text style={styles.titleUpcoming}>Black Widow</Text>
+                  <Text style={styles.genreUpcoming}>
+                    Action, Adventure, Sci-Fi
+                  </Text>
+
+                  <TouchableOpacity
+                    style={styles.buttonDetail}
+                    onPress={viewMovie}>
+                    <Text style={styles.textButtonDetail}>Details</Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.cardUpcoming}>
+                  <Image
+                    source={require('../../assets/images/movie2.png')}
+                    style={styles.upcomingImage}
+                  />
+                  <Text style={styles.titleUpcoming}>Black Widow</Text>
+                  <Text style={styles.genreUpcoming}>
+                    Action, Adventure, Sci-Fi
+                  </Text>
+
+                  <TouchableOpacity
+                    style={styles.buttonDetail}
+                    onPress={viewMovie}>
+                    <Text style={styles.textButtonDetail}>Details</Text>
+                  </TouchableOpacity>
                 </View>
               </ScrollView>
             </View>
