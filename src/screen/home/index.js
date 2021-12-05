@@ -15,11 +15,18 @@ import {Button} from 'react-native-elements';
 
 function App(props) {
   const viewMovie = () => {
-    props.navigation.navigate('DetailMovie');
+    props.navigation.navigate('Main', {screen: 'DetailMovie'});
     console.log('NGEKLIk');
   };
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar
+        animated={true}
+        // backgroundColor="#D6D8E7"
+        barStyle="dark-content"
+        showHideTransition="fade"
+      />
+
       <ScrollView style={styles.scrollView}>
         <View>
           <View>
@@ -211,7 +218,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    paddingTop: StatusBar.currentHeight,
+    // paddingTop: StatusBar.currentHeight,
   },
   scrollView: {
     marginHorizontal: 10,
@@ -232,6 +239,7 @@ const styles = StyleSheet.create({
   },
   heroDesc: {
     fontSize: 18,
+    marginTop: 30,
   },
   title: {
     display: 'flex',

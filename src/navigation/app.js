@@ -1,47 +1,47 @@
-import React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {createDrawerNavigator} from '@react-navigation/drawer';
-import Icon from 'react-native-vector-icons/Feather';
+import * as React from 'react';
+import {Text, View} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
-const Drawer = createDrawerNavigator();
 
 import Home from '../screen/home';
 import Profile from '../screen/profile';
+import HistoryTransaction from '../screen/history';
+
 import DetailMovie from '../screen/Movie/detail';
 import OrderMovie from '../screen/Movie/order';
 import CheckoutMovie from '../screen/Movie/checkout';
+import ResultTicket from '../screen/View-Ticket';
 
-import DrawerContent from '../components/DrawerContent';
+import UpdatePassword from '../screen/profile/update-password';
 
-function HomeNavigator() {
+function HomeScreen() {
   return (
     <Stack.Navigator>
-      {/* <Stack.Screen
+      <Stack.Screen
         component={Home}
         name="Home"
-        options={{headerShown: false}}
-      /> */}
-      {/* <Stack.Screen
-        component={DetailMovie}
-        name="DetailMovie"
-        options={{headerShown: false}}
-      /> */}
-      {/* <Stack.Screen
-        component={OrderMovie}
-        name="OrderMovie"
-        options={{headerShown: false}}
-      /> */}
-      <Stack.Screen
-        component={CheckoutMovie}
-        name="CheckoutMovie"
         options={{headerShown: false}}
       />
     </Stack.Navigator>
   );
 }
 
-function ProfileNavigator() {
+function HistoryScreen() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        component={HistoryTransaction}
+        name="History Transaction"
+        options={{headerShown: false}}
+      />
+    </Stack.Navigator>
+  );
+}
+function ProfileScreen() {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -53,31 +53,102 @@ function ProfileNavigator() {
   );
 }
 
-function AppNavigator() {
+function MainScreen() {
   return (
-    <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
-      <Drawer.Screen
-        component={HomeNavigator}
-        name="HomeNavigator"
-        options={{
-          title: 'Home',
-          drawerIcon: ({size, color}) => (
-            <Icon name="home" size={size} color={color} />
-          ),
-        }}
+    <Stack.Navigator>
+      <Stack.Screen
+        component={DetailMovie}
+        name="DetailMovie"
+        options={{headerShown: true}}
       />
-      <Drawer.Screen
-        component={ProfileNavigator}
-        name="ProfileNavigator"
-        options={{
-          title: 'Profile',
-          drawerIcon: ({size, color}) => (
-            <Icon name="user" size={size} color={color} />
-          ),
-        }}
+      <Stack.Screen
+        component={OrderMovie}
+        name="OrderMovie"
+        options={{headerShown: true}}
       />
-    </Drawer.Navigator>
+      <Stack.Screen
+        component={CheckoutMovie}
+        name="CheckoutMovie"
+        options={{headerShown: true}}
+      />
+      <Stack.Screen
+        component={ResultTicket}
+        name="ResultTicket"
+        options={{headerShown: true}}
+      />
+    </Stack.Navigator>
   );
 }
+function MainProfileScreen() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        component={UpdatePassword}
+        name="UpdatePassword"
+        options={{headerShown: true}}
+      />
+    </Stack.Navigator>
+  );
+}
+const Tab = createBottomTabNavigator();
 
-export default AppNavigator;
+export default function App() {
+  return (
+    <NavigationContainer independent={true}>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" options={{headerShown: false}}>
+          {() => (
+            <Tab.Navigator
+              screenOptions={({route}) => ({
+                tabBarIcon: ({focused, color, size}) => {
+                  let iconName;
+
+                  if (route.name === 'Home') {
+                    iconName = focused ? 'heart' : 'heart-circle-outline';
+                  } else if (route.name === 'History Transaction') {
+                    iconName = focused ? 'albums' : 'albums-outline';
+                  } else if (route.name === 'Profile') {
+                    iconName = focused ? 'settings' : 'settings-outline';
+                  }
+
+                  return <Ionicons name={iconName} size={size} color={color} />;
+                },
+                tabBarActiveTintColor: '#5F2EEA',
+                tabBarInactiveTintColor: 'gray',
+              })}>
+              <Tab.Screen
+                name="Home"
+                component={HomeScreen}
+                options={{headerShown: false}}
+              />
+
+              <Tab.Screen
+                name={'History Transaction'}
+                component={HistoryScreen}
+              />
+              <Tab.Screen
+                name={'Profile'}
+                component={ProfileScreen}
+                options={{headerShown: false}}
+              />
+            </Tab.Navigator>
+          )}
+        </Stack.Screen>
+        <Stack.Screen
+          name="Main"
+          component={MainScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="MainProfileScreen"
+          component={MainProfileScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}

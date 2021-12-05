@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import moment from 'moment';
 import {
   View,
@@ -14,11 +14,29 @@ import {
 import Icon from 'react-native-vector-icons/Feather';
 const ss = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7];
 const pp = [1, 2, 3, 4, 5, 6, 7];
-const DetailMovie = props => {
-  return (
-    // // <SafeAreaView style={styles.container}>
 
+const DetailMovie = props => {
+  useEffect(() => {
+    // console.log(props.navigation.setOptions);
+    props.navigation.setOptions({
+      title: `Choose Seat`,
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: '#5F2EEA',
+      },
+    });
+  });
+  const handleCheckout = () => {
+    props.navigation.navigate('Main', {screen: 'CheckoutMovie'});
+  };
+  return (
     <ScrollView style={styles.scrollView}>
+      <StatusBar
+        animated={true}
+        // backgroundColor="#D6D8E7"
+        barStyle="dark-content"
+        showHideTransition="fade"
+      />
       <View style={styles.card}>
         <Text style={styles.Title}>Choose Your Seat</Text>
         <View style={styles.hrPrimary}></View>
@@ -95,7 +113,7 @@ const DetailMovie = props => {
           </View>
         </View>
       </View>
-      <TouchableOpacity style={styles.buttonCheckout}>
+      <TouchableOpacity style={styles.buttonCheckout} onPress={handleCheckout}>
         <Text style={styles.buttonCheckoutText}>Chcekout Now</Text>
       </TouchableOpacity>
     </ScrollView>

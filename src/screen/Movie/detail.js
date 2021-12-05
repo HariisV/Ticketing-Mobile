@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import DatePicker from 'react-native-date-picker';
 import {Picker} from '@react-native-picker/picker';
 import moment from 'moment';
@@ -18,21 +18,33 @@ import {TextInput} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Feather';
 const pp = [1, 2, 3, 4, 5, 6, 7, 8];
 const DetailMovie = props => {
-  const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState('');
+  const [date, setDate] = useState(new Date());
+  const [selectedLocation, setselectedLocation] = useState('');
+  const [selectedTime, setselectedTime] = useState('');
   console.log(date);
+
+  useEffect(() => {
+    props.navigation.setOptions({
+      title: `Spiderman And The boy`,
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: '#5F2EEA',
+      },
+    });
+  });
+
   const handleBook = () => {
     console.log(props.navigation.navigate('OrderMovie'));
-    // props.navigation.navigate('AppScreen', {
-    //   screen: 'OrderMovie',
-    // });
-    // props.navigation
     props.navigation.navigate('OrderMovie', {
       params: {
         nama: 'Bagus TH',
       },
     });
+  };
+
+  const handleTime = e => {
+    console.log(e);
   };
   let selectedDate = moment(date).format('DD/MM/YYYY');
   return (
@@ -88,9 +100,9 @@ const DetailMovie = props => {
 
           <Picker
             style={styles.inputTimes}
-            selectedValue={selectedValue}
+            selectedLocation={selectedLocation}
             onValueChange={(itemValue, itemIndex) =>
-              setSelectedValue(itemValue)
+              setselectedLocation(itemValue)
             }>
             <Picker.Item label="Aceh" value="java" />
             <Picker.Item label="Makasar" value="js" />
@@ -121,7 +133,10 @@ const DetailMovie = props => {
               {pp.map(e => {
                 return (
                   // <View style={styles.scheduleListItem}>
-                  <Text key={e} style={styles.scheduleListItem}>
+                  <Text
+                    key={e}
+                    style={styles.scheduleListItem}
+                    onPress={() => handleTime(e)}>
                     {e}8:30am
                   </Text>
                   // {/* </View> */}
@@ -161,10 +176,10 @@ const DetailMovie = props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-    paddingTop: StatusBar.currentHeight,
+    // paddingTop: StatusBar.currentHeight,
   },
   scrollView: {
+    backgroundColor: 'white',
     marginHorizontal: 10,
   },
   containerChild: {

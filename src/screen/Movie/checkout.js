@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import moment from 'moment';
 import {
   View,
@@ -9,110 +9,113 @@ import {
   StatusBar,
   Pressable,
   TouchableOpacity,
+  TextInput,
   Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-const ss = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7];
-const pp = [1, 2, 3, 4, 5, 6, 7];
-const DetailMovie = props => {
+const CheckoutMovie = props => {
+  useEffect(() => {
+    props.navigation.setOptions({
+      title: `Spiderman And The boy`,
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: '#5F2EEA',
+      },
+    });
+  });
   return (
     // // <SafeAreaView style={styles.container}>
 
     <ScrollView style={styles.scrollView}>
-      <View style={styles.card}>
-        <Text style={styles.Title}>Choose Your Seat</Text>
-        <View style={styles.hrPrimary}></View>
-        {pp.map(e => {
-          return (
-            <View style={styles.seatContainer}>
-              {ss.map(e => {
-                return (
-                  <View style={e != 9 && e != 8 ? styles.available : ''}>
-                    {e != 8 && e != 9 ? (
-                      <Text></Text>
-                    ) : (
-                      <Text style={styles.jarak}>. </Text>
-                    )}
-                  </View>
-                );
-              })}
+      <View style={styles.totalPrice}>
+        <View style={styles.d_row}>
+          <Text style={styles.payment}>Total Payment</Text>
+          <Text style={styles.totalPayment}>$30.00</Text>
+        </View>
+      </View>
+      <View style={styles.container}>
+        <View style={styles.card}>
+          <Text style={styles.Title}>Payment Method</Text>
+          <View style={styles.cardPaymentContainer}>
+            <View style={styles.cardPayment}>
+              <Image
+                source={require('../../assets/images/payment1.png')}
+                style={styles.cardPaymentImage}></Image>
             </View>
-          );
-        })}
-        <Text style={styles.titleKey}>Seating Key</Text>
-        <View style={styles.keyContainer}>
-          <View style={styles.keyTitleContainer}>
-            <Icon name="arrow-down" style={styles.keyIcon} />
-            <Text style={styles.titleListSeat}> A-G</Text>
-          </View>
-          <View style={styles.keyTitleContainer}>
-            <Icon name="arrow-right" style={styles.keyIcon} />
-            <Text style={styles.titleListSeat}> 1-14</Text>
+            <View style={styles.cardPayment}>
+              <Image
+                source={require('../../assets/images/payment2.png')}
+                style={styles.cardPaymentImage}></Image>
+            </View>
+            <View style={styles.cardPayment}>
+              <Image
+                source={require('../../assets/images/payment3.png')}
+                style={styles.cardPaymentImage}></Image>
+            </View>
+            <View style={styles.cardPayment}>
+              <Image
+                source={require('../../assets/images/payment4.png')}
+                style={[
+                  styles.cardPaymentImage,
+                  styles.cardPaymentPaypal,
+                ]}></Image>
+            </View>
+            <View style={styles.cardPayment}>
+              <Image
+                source={require('../../assets/images/payment5.png')}
+                style={styles.cardPaymentImage}></Image>
+            </View>
+            <View style={styles.cardPayment}>
+              <Image
+                source={require('../../assets/images/payment6.png')}
+                style={styles.cardPaymentImage}></Image>
+            </View>
           </View>
         </View>
-        <View style={styles.keyContainer}>
-          <View style={styles.keyList}>
-            <View style={styles.keyAvailable}></View>
-            <Text style={styles.keyTitle}>Availabe</Text>
+        <View style={styles.card}>
+          <Text style={styles.Title}>Personal Info</Text>
+          <View>
+            <Text style={styles.inputLabel}>Full Name</Text>
+            <TextInput style={styles.input} placeholder="Input Your Email" />
           </View>
-          <View style={styles.keyList}>
-            <View style={styles.keySelected}></View>
-            <Text style={styles.keyTitle}>Selected</Text>
+          <View>
+            <Text style={styles.inputLabel}>Email</Text>
+            <TextInput style={styles.input} placeholder="Input Your Email" />
           </View>
-          <View style={styles.keyList}>
-            <View style={styles.keySold}></View>
-            <Text style={styles.keyTitle}>Sold </Text>
+          <View>
+            <Text style={styles.inputLabel}>Phone Number</Text>
+            <TextInput style={styles.input} placeholder="Input Your Email" />
+          </View>
+          <View style={[styles.dRow, styles.alertWarning]}>
+            <Image
+              source={require('../../assets/images/warning.png')}
+              style={styles.alertImage}
+            />
+            <Text style={styles.alertText}>Fill your data correctly</Text>
           </View>
         </View>
+
+        <TouchableOpacity style={styles.buttonCheckout}>
+          <Text style={styles.buttonCheckoutText}>Pay your order</Text>
+        </TouchableOpacity>
       </View>
-      {/* <Text style={styles.Title}>Order Info</Text> */}
-      {/* <Text style={[styles.Title, styles.title2]}>Order Info</Text>
-    <View style={styles.hrPrimary2}></View> */}
-      <View style={[styles.orderInfo, styles.card]}>
-        <View style={styles.infoContainer}>
-          <Image
-            source={require('../../assets/images/sponsor1.png')}
-            style={styles.infoImage}
-          />
-          <Text style={styles.infoSchedule}>CineOne21 Cinema</Text>
-          <Text style={styles.infoMovie}>Spider-Man: Homecoming</Text>
-          <View style={styles.detailContainer}>
-            <Text style={styles.detailQ}>Tuesday, 07 July 2020</Text>
-            <Text style={styles.detailA}>02:00pm</Text>
-          </View>
-          <View style={styles.detailContainer}>
-            <Text style={styles.detailQ}>One ticket price</Text>
-            <Text style={styles.detailA}>$10</Text>
-          </View>
-          <View style={styles.detailContainer}>
-            <Text style={styles.detailQ}>Seat choosed</Text>
-            <Text style={styles.detailA}>C4, C5, C6</Text>
-          </View>
-          <View style={styles.hrLight}></View>
-          <View style={styles.detailContainer}>
-            <Text style={styles.detailQPrice}>Total Payment</Text>
-            <Text style={styles.detailAPrice}>$30</Text>
-          </View>
-        </View>
-      </View>
-      <TouchableOpacity style={styles.buttonCheckout}>
-        <Text style={styles.buttonCheckoutText}>Chcekout Now</Text>
-      </TouchableOpacity>
     </ScrollView>
-    // {/* </SafeAreaView> */}
   );
 };
 
 const primary = '#5F2EEA';
+const fontFam = {fontFamily: 'Mulish-Bold'};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F7F7FC',
-    paddingTop: StatusBar.currentHeight,
+    marginTop: 20,
+    marginHorizontal: 20,
+    // paddingTop: StatusBar.currentHeight,
   },
   scrollView: {
-    marginHorizontal: 10,
-    marginHorizontal: 20,
+    // marginHorizontal: 10,
+    backgroundColor: '#F7F7FC',
+    // marginHorizontal: 20,
   },
   hrPrimary: {
     marginTop: 20,
@@ -120,27 +123,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderColor: primary,
   },
-  hrPrimary2: {
-    marginTop: 20,
-    borderWidth: 1,
-    borderRadius: 20,
-    borderColor: primary,
-    marginVertical: 30,
-  },
-  title2: {
-    textAlign: 'center',
-  },
-  hrLight: {
-    marginTop: 40,
-    marginBottom: 10,
-    borderWidth: 1,
-    borderRadius: 20,
-    borderColor: '#E6E6E6',
-  },
   card: {
     backgroundColor: 'white',
     padding: 20,
-    borderRadius: 20,
+    // borderRadius: 20,
     marginVertical: 20,
     marginBottom: 20,
     backgroundColor: 'white',
@@ -149,145 +135,37 @@ const styles = StyleSheet.create({
     shadowOpacity: 444,
     shadowRadius: 445,
   },
-  available: {
-    backgroundColor: '#D6D8E7',
-    marginRight: 8,
-    paddingBottom: 10,
-    flex: 1,
-  },
-  seatContainer: {
-    marginTop: 10,
+  cardPaymentContainer: {
     flexDirection: 'row',
-  },
-  jarak: {
-    backgroundColor: 'white',
-    height: 5,
-  },
-  keyContainer: {
-    flexDirection: 'row',
+    flexWrap: 'wrap',
     justifyContent: 'space-between',
-    // marginBottom: 205,
   },
-  keyList: {
-    flexDirection: 'row',
-    marginBottom: 25,
-    // marginRight: 30,
-    // justifyContent: 'space-between',
-  },
-  keyAvailable: {
-    backgroundColor: '#D6D8E7',
-    marginRight: 8,
-    paddingBottom: 10,
-    height: 25,
-    width: 25,
+  cardPayment: {
     borderRadius: 5,
+    borderWidth: 1,
+    width: '45%',
+    borderColor: '#E6E6E6',
+    marginVertical: 20,
+    justifyContent: 'center',
   },
-  keySelected: {
-    backgroundColor: primary,
-    marginRight: 8,
-    paddingBottom: 10,
-    height: 25,
-    width: 25,
-    borderRadius: 5,
-  },
-  keySold: {
-    backgroundColor: '#6E7191',
-    marginRight: 8,
-    paddingBottom: 10,
-    height: 25,
-    width: 25,
-    borderRadius: 5,
-  },
-  keyTitle: {
-    alignSelf: 'center',
-    fontSize: 16,
-  },
-  titleListSeat: {
-    fontWeight: '600',
-    color: '#4E4B66',
-    fontSize: 18,
-    alignSelf: 'center',
-    fontFamily: 'Mulish-Reguler',
-    // marginTop: 24,
-  },
-  keyTitleContainer: {
-    flexDirection: 'row',
-    // marginBottom: 20,
-    // marginVertical: 15,
-    marginTop: 20,
-    marginBottom: 20,
-  },
-  keyIcon: {
-    fontSize: 28,
-    color: 'black',
-    marginRight: 5,
-  },
-  titleKey: {
-    marginTop: 40,
-    // marginBottom: 2,
-    fontSize: 20,
-    fontWeight: '600',
-    color: 'black',
-    fontFamily: 'Mulish-Reguler',
-  },
-  Title: {
-    fontWeight: '800',
-    color: '#14142B',
-    fontSize: 24,
-    fontFamily: 'Mulish-Medium',
-  },
-  infoImage: {
-    // marginTop: 10,
-    alignSelf: 'center',
+  cardPaymentImage: {
+    // padding: 20,
+    // margin: 50,
     width: 100,
-    // height: 100,
+    height: 80,
+
+    alignSelf: 'center',
     resizeMode: 'contain',
   },
-  detailContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 10,
+  cardPaymentPaypal: {
+    height: 50,
   },
-  infoSchedule: {
-    textAlign: 'center',
-    fontFamily: 'Mulish-Bold',
-    fontSize: 26,
+  Title: {
+    fontWeight: 'bold',
     color: '#14142B',
-    fontWeight: '600',
-  },
-  infoMovie: {
-    textAlign: 'center',
-    fontFamily: 'Mulish-Bold',
-    fontSize: 18,
-    color: '#14142B',
-    fontWeight: '200',
-    marginTop: 5,
-    marginBottom: 35,
-  },
-  detailQ: {
-    color: '#6B6B6B',
-    fontFamily: 'Mulish-Bold',
-    fontWeight: '400',
-    fontSize: 18,
-  },
-  detailA: {
-    color: '#14142B',
-    fontFamily: 'Mulish-Bold',
-    fontWeight: '600',
-    fontSize: 18,
-  },
-  detailQPrice: {
-    color: '#6B6B6B',
-    fontFamily: 'Mulish-Bold',
-    fontWeight: '400',
     fontSize: 20,
-    alignSelf: 'center',
-  },
-  detailAPrice: {
-    color: primary,
-    fontFamily: 'Mulish-Bold',
-    fontWeight: '800',
-    fontSize: 26,
+    fontFamily: 'Mulish-Regular',
+    marginBottom: 20,
   },
   buttonCheckout: {
     marginTop: 40,
@@ -308,6 +186,61 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontSize: 16,
   },
+  totalPrice: {
+    backgroundColor: 'white',
+    paddingVertical: 20,
+    paddingLeft: 50,
+    borderColor: '#E6E6E6',
+    borderTopWidth: 1,
+  },
+  d_row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginHorizontal: 20,
+  },
+  totalPayment: {
+    ...fontFam,
+    fontSize: 20,
+    color: 'black',
+  },
+  payment: {
+    ...fontFam,
+    fontSize: 18,
+    alignSelf: 'center',
+  },
+  input: {
+    height: 60,
+    borderColor: '#DEDEDE',
+    borderWidth: 1,
+    fontSize: 18,
+    paddingLeft: 20,
+    marginBottom: 20,
+    marginTop: 15,
+  },
+  inputLabel: {
+    marginTop: 15,
+    fontFamily: 'Mulish-Regular',
+    fontWeight: '400',
+    fontSize: 19,
+  },
+  dRow: {
+    flexDirection: 'row',
+  },
+  alertWarning: {
+    backgroundColor: 'rgba(244, 183, 64, 0.3);',
+    padding: 15,
+    marginBottom: 20,
+  },
+  alertImage: {
+    width: 30,
+    height: 30,
+  },
+  alertText: {
+    ...fontFam,
+    fontSize: 16,
+    marginLeft: 20,
+    alignSelf: 'center',
+  },
 });
 
-export default DetailMovie;
+export default CheckoutMovie;
