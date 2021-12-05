@@ -17,6 +17,7 @@ import CheckoutMovie from '../screen/Movie/checkout';
 import ResultTicket from '../screen/View-Ticket';
 
 import UpdatePassword from '../screen/profile/update-password';
+import UpdateProfile from '../screen/profile/update-profile';
 
 function HomeScreen() {
   return (
@@ -85,6 +86,11 @@ function MainProfileScreen() {
       <Stack.Screen
         component={UpdatePassword}
         name="UpdatePassword"
+        options={{headerShown: true}}
+      />
+      <Stack.Screen
+        component={UpdateProfile}
+        name="UpdateProfile"
         options={{headerShown: true}}
       />
     </Stack.Navigator>

@@ -1,18 +1,22 @@
 import React, {useEffect} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Image, ActivityIndicator} from 'react-native';
 
 const SplashScreen = props => {
   useEffect(() => {
-    const token = true;
-    token
-      ? props.navigation.navigate('AppScreen')
-      : props.navigation.navigate('AuthScreen');
-    // setTimeout(() => {
-    // }, 0);
+    setTimeout(() => {
+      const token = false;
+      token
+        ? props.navigation.navigate('AppScreen')
+        : props.navigation.navigate('AuthScreen');
+    }, 3000);
   }, []);
   return (
     <View style={styles.container}>
-      <Text>SplashScreen Screen</Text>
+      <Image
+        source={require('../../assets/images/logo-w.png')}
+        style={styles.logo}
+      />
+      <ActivityIndicator size="large" color="#00ff00" />
     </View>
   );
 };
@@ -22,6 +26,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#5F2EEA',
+  },
+  logo: {
+    width: 200,
+    height: 100,
+    resizeMode: 'contain',
   },
 });
 

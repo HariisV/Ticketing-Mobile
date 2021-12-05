@@ -1,21 +1,21 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import moment from 'moment';
 import {
   View,
   Text,
-  StyleSheet,
   ScrollView,
-  Image,
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
 import styles from './style';
 
 const UpdatePassword = props => {
+  useEffect(() => {
+    props.navigation.setOptions({
+      title: `Update Password`,
+    });
+  });
   return (
-    // // <SafeAreaView style={styles.container}>
-
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
         <View style={styles.card}>
@@ -31,7 +31,7 @@ const UpdatePassword = props => {
           />
           <Text style={styles.label}>Confirm Password</Text>
           <TextInput style={styles.input} placeholder="Input Your Email" />
-          <TouchableOpacity style={styles.buttonDetail}>
+          <TouchableOpacity style={[styles.buttonDetail, {marginTop: 250}]}>
             <Text style={styles.textButtonDetail}>Update</Text>
           </TouchableOpacity>
         </View>

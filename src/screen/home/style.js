@@ -1,7 +1,245 @@
-import { StyleSheet } from "react-native";
+import {StyleSheet} from 'react-native';
 
-export default StyleSheet.create({
-    textMedium:{
-        fontSize: 50
-    }
-})
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    // paddingTop: StatusBar.currentHeight,
+  },
+  scrollView: {
+    marginHorizontal: 10,
+  },
+  containerChild: {
+    margin: 20,
+  },
+  imageHero: {
+    width: '100%',
+    height: 500,
+    marginTop: 40,
+  },
+  heroTitle: {
+    fontFamily: 'Mulish-Bold',
+    fontSize: 52,
+    fontWeight: '800',
+    color: '#5F2EEA',
+  },
+  heroDesc: {
+    fontSize: 18,
+    marginTop: 30,
+  },
+  title: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 50,
+  },
+  textTitleUpcoming: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 70,
+  },
+  cardContainer: {
+    marginTop: 30,
+    flexDirection: 'row',
+  },
+
+  footer: {
+    // backgroundColor: 'grey',
+    marginTop: 30,
+  },
+  listMonth: {
+    marginTop: 30,
+    flexDirection: 'row',
+    marginBottom: 40,
+  },
+  listMonthItem: {
+    marginRight: 15,
+    width: 150,
+    backgroundColor: '#5F2EEA',
+    borderColor: '#5F2EEA',
+    borderWidth: 1,
+    height: 60,
+  },
+  buttonDetail: {
+    borderRadius: 10,
+    marginBottom: 30,
+    borderColor: '#5F2EEA',
+    borderWidth: 1,
+    color: 'black',
+    paddingVertical: 5,
+  },
+  textButtonDetail: {
+    color: '#5F2EEA',
+    textAlign: 'center',
+  },
+  cardUpcoming: {
+    paddingHorizontal: 20,
+    borderColor: '#DEDEDE',
+    borderWidth: 1,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    marginRight: 30,
+    width: 200,
+  },
+  upcomingImage: {
+    alignSelf: 'center',
+    width: '100%',
+    height: 300,
+    resizeMode: 'contain',
+  },
+  titleUpcoming: {
+    textAlign: 'center',
+    fontFamily: 'Mulish-Bold',
+    fontWeight: '600',
+    color: 'black',
+  },
+  genreUpcoming: {
+    textAlign: 'center',
+    // width: 140,
+    marginHorizontal: 20,
+    marginBottom: 20,
+  },
+  sectionEmail: {
+    alignItems: 'center',
+    marginTop: 100,
+    marginBottom: 70,
+    marginHorizontal: 40,
+    width: 300,
+  },
+  input: {
+    height: 60,
+    borderColor: '#DEDEDE',
+    borderWidth: 1,
+    fontSize: 18,
+    paddingLeft: 20,
+    marginTop: 20,
+    marginBottom: 20,
+    width: '100%',
+    borderRadius: 15,
+  },
+  shadowButtonJoin: {
+    elevation: 10,
+    marginBottom: 30,
+    borderRadius: 15,
+  },
+  buttonJoin: {
+    backgroundColor: '#5F2EEA',
+    padding: 15,
+    borderRadius: 15,
+    paddingHorizontal: '38%',
+    marginBottom: 30,
+  },
+  textJoin: {
+    textAlign: 'center',
+    marginHorizontal: 40,
+  },
+  sponsorTitle: {
+    fontFamily: 'Mulish-Bold',
+    fontWeight: 'bold',
+    fontSize: 18,
+    marginBottom: 10,
+  },
+  sponsorContainer: {
+    borderColor: '#DEDEDE',
+    borderWidth: 1,
+    paddingHorizontal: 30,
+    justifyContent: 'space-between',
+  },
+  sponsor: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  sponsorImage: {
+    width: 80,
+    height: 80,
+    resizeMode: 'contain',
+  },
+  textTitle: {
+    fontFamily: 'Mulish-Bold',
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#14142B',
+  },
+  textDesc: {
+    fontSize: 14,
+    color: '#5F2EEA',
+    justifyContent: 'flex-end',
+  },
+  paymentTitle: {
+    fontFamily: 'Mulish-Bold',
+    fontWeight: 'bold',
+    fontSize: 18,
+    marginBottom: 10,
+    marginTop: 30,
+  },
+  paymentContainer: {
+    borderColor: '#DEDEDE',
+    borderWidth: 1,
+    paddingHorizontal: 30,
+  },
+  payment: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  paymentImage: {
+    width: 60,
+    height: 60,
+    // marginRight: 30,
+    resizeMode: 'contain',
+  },
+  fieldSet: {
+    marginTop: 50,
+    padding: 30,
+    paddingHorizontal: 15,
+    // paddingBottom: 10,
+    borderRadius: 5,
+    borderWidth: 1,
+    alignItems: 'center',
+    borderColor: '#5F2EEA',
+  },
+  legend: {
+    position: 'absolute',
+    top: -40,
+    height: 70,
+    left: 30,
+    fontWeight: 'bold',
+    backgroundColor: '#FFFFFF',
+  },
+  legendText: {
+    // color: 'black',
+    fontFamily: 'Mulish-Regular',
+    fontWeight: '600',
+    fontSize: 16,
+  },
+
+  legendImage: {
+    width: 80,
+    height: 80,
+    resizeMode: 'contain',
+    position: 'absolute',
+    top: -70,
+    left: -165,
+    // height: 70,
+    fontWeight: 'bold',
+    backgroundColor: '#FFFFFF',
+  },
+  showingImage: {
+    alignSelf: 'center',
+    width: '100%',
+    height: 300,
+    resizeMode: 'contain',
+  },
+  card: {
+    padding: 30,
+    borderColor: '#DEDEDE',
+    borderWidth: 1,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    marginRight: 30,
+    width: 250,
+    // height: 200,
+  },
+});
+
+export default styles;

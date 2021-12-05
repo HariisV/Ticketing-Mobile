@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 
 const primary = '#5F2EEA';
-const fontFam = {fontFamily: 'Mulish-Bold'};
+const fontFam = {fontFamily: 'Mulish-Regular'};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   desc: {
+    ...fontFam,
     marginBottom: 30,
     marginTop: 5,
     fontSize: 16,
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
   input: {
     height: 60,
     borderColor: '#DEDEDE',
-    borderWidth: 1,
+    borderWidth: 2,
     fontSize: 18,
     paddingLeft: 20,
     marginBottom: 40,
@@ -57,6 +58,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 18,
+    marginBottom: 10,
   },
 });
 export default styles;

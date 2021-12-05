@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -6,9 +6,16 @@ import {
   Image,
   Pressable,
   SafeAreaView,
+  Button,
 } from 'react-native';
+import Modal from 'react-native-modal';
 
 const Profiles = props => {
+  const [isModalVisible, setModalVisible] = useState(false);
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
   const handleChangePage = data => {
     props.navigation.navigate('MainProfileScreen', {
       screen: data,
@@ -21,20 +28,30 @@ const Profiles = props => {
           source={require('../../assets/images/user.png')}
           style={styles.image}
         />
+        {/* <Button title="Show modal" onPress={toggleModal} /> */}
+        <View style={{flex: 1}}>
+          <Modal isVisible={isModalVisible}>
+            <View style={{flex: 1}}>
+              <View style={styles.content}>
+                <Text style={styles.contentTitle}>Hi 👋!</Text>
+                <Text style={{fontSize: 26}}>Comming Soon </Text>
+              </View>
+              <Button title="Close" onPress={toggleModal} />
+            </View>
+          </Modal>
+        </View>
         <Text style={styles.name}>Robert Chandra</Text>
         <Text style={styles.email}>robert@gmail.com</Text>
         <Pressable
           style={styles.wrapperbutton}
-          onPress={() => handleChangePage('Profile')}>
+          onPress={() => handleChangePage('UpdateProfile')}>
           <View pointerEvents="none">
             <View style={styles.inputTimes}>
               <Text style={styles.valueInput}>Update Profile</Text>
             </View>
           </View>
         </Pressable>
-        <Pressable
-          style={styles.wrapperbutton}
-          onPress={() => handleChangePage('Image')}>
+        <Pressable style={styles.wrapperbutton} onPress={toggleModal}>
           <View pointerEvents="none">
             <View style={styles.inputTimes}>
               <Text style={styles.valueInput}>Update Profile Image</Text>
@@ -110,6 +127,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 5,
     marginBottom: 30,
+  },
+  content: {
+    backgroundColor: 'white',
+    padding: 22,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 4,
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+  },
+  contentTitle: {
+    fontSize: 20,
+    marginBottom: 12,
   },
 });
 

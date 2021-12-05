@@ -1,8 +1,18 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import moment from 'moment';
 import {View, Text, StyleSheet, ScrollView, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 const CheckoutMovie = props => {
+  useEffect(() => {
+    props.navigation.setOptions({
+      title: `Detail Transaction`,
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: '#5F2EEA',
+      },
+    });
+  });
+
   return (
     // // <SafeAreaView style={styles.container}>
 

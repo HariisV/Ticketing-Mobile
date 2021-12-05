@@ -16,7 +16,7 @@ import Icon from 'react-native-vector-icons/Feather';
 const CheckoutMovie = props => {
   useEffect(() => {
     props.navigation.setOptions({
-      title: `Spiderman And The boy`,
+      title: `Pay Your Order`,
       headerTintColor: 'white',
       headerStyle: {
         backgroundColor: '#5F2EEA',
