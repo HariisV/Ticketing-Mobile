@@ -75,8 +75,8 @@ const DetailMovie = props => {
 
   const handleBook = data => {
     const setData = {
-      movieId: params.idMovie,
-      scheduleId: selectedSchedule,
+      movie: detailMovie,
+      schedule: selectedSchedule,
       dateBooking: date,
       timeBooking: selectedTime,
     };

@@ -4,20 +4,22 @@ import {
   View,
   Text,
   StyleSheet,
-  SafeAreaView,
   ScrollView,
   StatusBar,
-  Pressable,
+  FlatList,
   TouchableOpacity,
-  Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-const ss = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7];
-const pp = [1, 2, 3, 4, 5, 6, 7];
+import Seat from '../../../../components/seat';
+
+const listSeat = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
 
 const DetailMovie = props => {
   const params = props.route.params.setData;
   console.log(params);
+  const [selectedSeat, setSelectedSeat] = useState([]);
+  const [reservedSeat, setReservedSeat] = useState(['A1', 'C7']);
+
   useEffect(() => {
     props.navigation.setOptions({
       title: `Choose Seat`,
@@ -27,37 +29,58 @@ const DetailMovie = props => {
       },
     });
   });
+  useEffect(() => {
+    console.log(props.route.params);
+  }, []);
   const handleCheckout = () => {
     props.navigation.navigate('Main', {screen: 'CheckoutMovie'});
   };
+  const handleSelectedSeat = data => {
+    if (selectedSeat.includes(data)) {
+      const deleteSeat = selectedSeat.filter(el => {
+        return el !== data;
+      });
+      setSelectedSeat(deleteSeat);
+    } else {
+      setSelectedSeat([...selectedSeat, data]);
+    }
+  };
+
+  const handleResetSeat = () => {
+    setSelectedSeat([]);
+  };
+
+  const handleBookingSeat = () => {
+    console.log(params);
+  };
+
+  let bookingDay = moment(params.dateBooking).format('dddd, DD/MM/YYYY');
+
   return (
     <ScrollView style={styles.scrollView}>
       <StatusBar
         animated={true}
-        // backgroundColor="#D6D8E7"
         barStyle="dark-content"
         showHideTransition="fade"
       />
       <View style={styles.card}>
         <Text style={styles.Title}>Choose Your Seat</Text>
         <View style={styles.hrPrimary}></View>
-        {pp.map(e => {
-          return (
-            <View style={styles.seatContainer}>
-              {ss.map(e => {
-                return (
-                  <View style={e != 9 && e != 8 ? styles.available : ''}>
-                    {e != 8 && e != 9 ? (
-                      <Text></Text>
-                    ) : (
-                      <Text style={styles.jarak}>. </Text>
-                    )}
-                  </View>
-                );
-              })}
-            </View>
-          );
-        })}
+        <View style={styles.seatContainer}>
+          <FlatList
+            data={listSeat}
+            keyExtractor={item => item}
+            renderItem={({item}) => (
+              <Seat
+                seatAlphabhet={item}
+                reserved={reservedSeat}
+                selected={selectedSeat}
+                selectSeat={handleSelectedSeat}
+              />
+            )}
+          />
+        </View>
+
         <Text style={styles.titleKey}>Seating Key</Text>
         <View style={styles.keyContainer}>
           <View style={styles.keyTitleContainer}>
@@ -84,20 +107,14 @@ const DetailMovie = props => {
           </View>
         </View>
       </View>
-      {/* <Text style={styles.Title}>Order Info</Text> */}
-      {/* <Text style={[styles.Title, styles.title2]}>Order Info</Text>
-    <View style={styles.hrPrimary2}></View> */}
+
       <View style={[styles.orderInfo, styles.card]}>
         <View style={styles.infoContainer}>
-          {/* <Image
-            source={require('../../../assets/images/sponsor1.png')}
-            style={styles.infoImage}
-          /> */}
           <Text style={styles.infoSchedule}>CineOne21 Cinema</Text>
-          <Text style={styles.infoMovie}>Spider-Man: Homecoming</Text>
+          <Text style={styles.infoMovie}>{params.movie.name}</Text>
           <View style={styles.detailContainer}>
-            <Text style={styles.detailQ}>Tuesday, 07 July 2020</Text>
-            <Text style={styles.detailA}>02:00pm</Text>
+            <Text style={styles.detailQ}>{bookingDay}</Text>
+            <Text style={styles.detailA}>{params.timeBooking}</Text>
           </View>
           <View style={styles.detailContainer}>
             <Text style={styles.detailQ}>One ticket price</Text>
@@ -114,11 +131,12 @@ const DetailMovie = props => {
           </View>
         </View>
       </View>
-      <TouchableOpacity style={styles.buttonCheckout} onPress={handleCheckout}>
+      <TouchableOpacity
+        style={styles.buttonCheckout}
+        onPress={handleBookingSeat}>
         <Text style={styles.buttonCheckoutText}>Chcekout Now</Text>
       </TouchableOpacity>
     </ScrollView>
-    // {/* </SafeAreaView> */}
   );
 };
 

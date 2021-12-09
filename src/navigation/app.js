@@ -102,6 +102,13 @@ export default function App() {
   return (
     <NavigationContainer independent={true}>
       <Stack.Navigator>
+        {/* <Stack.Screen
+          name="MainProfileScreen OrderMovie"
+          component={OrderMovie}
+          options={{
+            headerShown: false,
+          }}
+        /> */}
         <Stack.Screen name="Home Screen Tab" options={{headerShown: false}}>
           {() => (
             <Tab.Navigator

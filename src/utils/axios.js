@@ -1,6 +1,6 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import {URL_BACKEND} from '@env';
 const axiosApiInterfaces = axios.create({
   baseURL: 'http://192.168.100.22:3001/',
 });

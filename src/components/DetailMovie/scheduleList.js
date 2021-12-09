@@ -33,12 +33,12 @@ export default function scheduleList(props) {
                     key={e}
                     style={[
                       styles.scheduleListItem,
-                      props.selectedSchedule == props.data.id &&
+                      props.selectedSchedule.id == props.data.id &&
                       props.selectedTime == e
                         ? styles.timeActive
                         : null,
                     ]}
-                    onPress={() => props.handleTime(e, props.data.id)}>
+                    onPress={() => props.handleTime(e, props.data)}>
                     {e}
                   </Text>
                 </View>
@@ -52,7 +52,7 @@ export default function scheduleList(props) {
             </Text>
           </View>
 
-          {props.selectedSchedule !== props.data.id ? (
+          {props.selectedSchedule.id !== props.data.id ? (
             <TouchableOpacity style={styles.buttonBookLocked}>
               <Text style={styles.buttonBookText}>Book Now</Text>
             </TouchableOpacity>
