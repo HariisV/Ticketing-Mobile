@@ -20,13 +20,13 @@ const CheckoutMovie = props => {
       <View style={styles.container}>
         <View style={styles.card}>
           <Image
-            source={require('../../assets/images/success.png')}
+            source={require('../../../assets/images/success.png')}
             style={styles.successImage}
           />
           <Text style={styles.title}>Thank You!</Text>
           <Text style={styles.success}>Your transaction was successful</Text>
           <Image
-            source={require('../../assets/images/qr.png')}
+            source={require('../../../assets/images/qr.png')}
             style={styles.qr}
           />
           <View style={styles.hr}></View>

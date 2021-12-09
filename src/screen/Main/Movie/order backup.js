@@ -70,7 +70,7 @@ const DetailMovie = props => {
         <View style={[styles.orderInfo, styles.card]}>
           <View style={styles.infoContainer}>
             <Image
-              source={require('../../assets/images/sponsor1.png')}
+              source={require('../../../assets/images/sponsor1.png')}
               style={styles.infoImage}
             />
             <Text style={styles.infoSchedule}>CineOne21 Cinema</Text>

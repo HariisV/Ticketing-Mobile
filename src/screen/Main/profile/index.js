@@ -9,6 +9,7 @@ import {
   Button,
 } from 'react-native';
 import Modal from 'react-native-modal';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Profiles = props => {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -21,11 +22,15 @@ const Profiles = props => {
       screen: data,
     });
   };
+  const handleLogout = async () => {
+    AsyncStorage.removeItem('token');
+    AsyncStorage.removeItem('refreshToken');
+  };
   return (
     <SafeAreaView style={styles.wrapper}>
       <View style={styles.container}>
         <Image
-          source={require('../../assets/images/user.png')}
+          source={require('../../../assets/images/user.png')}
           style={styles.image}
         />
         {/* <Button title="Show modal" onPress={toggleModal} /> */}
@@ -67,9 +72,7 @@ const Profiles = props => {
             </View>
           </View>
         </Pressable>
-        <Pressable
-          style={styles.wrapperbutton}
-          onPress={() => handleChangePage('Logout</')}>
+        <Pressable style={styles.wrapperbutton} onPress={handleLogout}>
           <View pointerEvents="none">
             <View style={styles.inputTimes}>
               <Text style={styles.valueInput}>Logout</Text>

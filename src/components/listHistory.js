@@ -1,12 +1,10 @@
 import React from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
-import styles from '../screen/history/style';
-
+// import styles from '../screen/main/history/style';
+import styles from '../screen/Main/history/style';
 const ListHistory = props => {
+  console.log(props);
   const handleChangePage = () => {
-    // console.log(props.props, 'asd');
-    // props.props.navigate('MainScreen', {screen: 'ResultTicket'});
-    // console.log(props.navigation.navigate);
     props.navigation.navigate('Main', {
       screen: 'ResultTicket',
     });

@@ -74,19 +74,22 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   cardUpcoming: {
-    paddingHorizontal: 20,
     borderColor: '#DEDEDE',
     borderWidth: 1,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     marginRight: 30,
     width: 200,
+    paddingHorizontal: 18,
+    paddingTop: 20,
   },
   upcomingImage: {
     alignSelf: 'center',
     width: '100%',
-    height: 300,
-    resizeMode: 'contain',
+    height: 250,
+    resizeMode: 'stretch',
+    borderRadius: 8,
+    marginBottom: 20,
   },
   titleUpcoming: {
     textAlign: 'center',
@@ -197,6 +200,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     alignItems: 'center',
     borderColor: '#5F2EEA',
+    marginBottom: 30,
   },
   legend: {
     position: 'absolute',
@@ -221,7 +225,7 @@ const styles = StyleSheet.create({
     top: -70,
     left: -165,
     // height: 70,
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     backgroundColor: '#FFFFFF',
   },
   showingImage: {

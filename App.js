@@ -1,8 +1,16 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet, ScrollView, TouchableOpacity,Button} from 'react-native';
 import MainStackNavigator from './src/navigation';
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
+import {persiststor, store} from './src/stores/store';
 
 function App() {
-  return (<MainStackNavigator />)
+  return (
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persiststor}>
+        <MainStackNavigator />
+      </PersistGate>
+    </Provider>
+  );
 }
 export default App;

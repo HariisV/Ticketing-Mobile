@@ -39,22 +39,22 @@ const CheckoutMovie = props => {
           <View style={styles.cardPaymentContainer}>
             <View style={styles.cardPayment}>
               <Image
-                source={require('../../assets/images/payment1.png')}
+                source={require('../../../assets/images/payment1.png')}
                 style={styles.cardPaymentImage}></Image>
             </View>
             <View style={styles.cardPayment}>
               <Image
-                source={require('../../assets/images/payment2.png')}
+                source={require('../../../assets/images/payment2.png')}
                 style={styles.cardPaymentImage}></Image>
             </View>
             <View style={styles.cardPayment}>
               <Image
-                source={require('../../assets/images/payment3.png')}
+                source={require('../../../assets/images/payment3.png')}
                 style={styles.cardPaymentImage}></Image>
             </View>
             <View style={styles.cardPayment}>
               <Image
-                source={require('../../assets/images/payment4.png')}
+                source={require('../../../assets/images/payment4.png')}
                 style={[
                   styles.cardPaymentImage,
                   styles.cardPaymentPaypal,
@@ -62,12 +62,12 @@ const CheckoutMovie = props => {
             </View>
             <View style={styles.cardPayment}>
               <Image
-                source={require('../../assets/images/payment5.png')}
+                source={require('../../../assets/images/payment5.png')}
                 style={styles.cardPaymentImage}></Image>
             </View>
             <View style={styles.cardPayment}>
               <Image
-                source={require('../../assets/images/payment6.png')}
+                source={require('../../../assets/images/payment6.png')}
                 style={styles.cardPaymentImage}></Image>
             </View>
           </View>
@@ -88,7 +88,7 @@ const CheckoutMovie = props => {
           </View>
           <View style={[styles.dRow, styles.alertWarning]}>
             <Image
-              source={require('../../assets/images/warning.png')}
+              source={require('../../../assets/images/warning.png')}
               style={styles.alertImage}
             />
             <Text style={styles.alertText}>Fill your data correctly</Text>

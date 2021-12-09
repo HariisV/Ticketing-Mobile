@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import moment from 'moment';
-import ListHistory from '../../components/listHistory';
+import ListHistory from '../../../components/listHistory';
 import styles from './style';
 import {View, ScrollView} from 'react-native';
 const CheckoutMovie = props => {

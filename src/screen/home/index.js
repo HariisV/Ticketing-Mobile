@@ -1,32 +1,49 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
   Image,
-  StyleSheet,
   ScrollView,
   SafeAreaView,
-  StatusBar,
   TextInput,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import {Button} from 'react-native-elements';
 import styles from './style';
-// impor styles
+import axios from '../../utils/axios';
+
+import UpcomingMovieList from '../../components/Home/upcoming';
+
 function App(props) {
-  const viewMovie = () => {
-    props.navigation.navigate('Main', {screen: 'DetailMovie'});
+  const [movieShowing, setMovieShowing] = useState([]);
+  const [movieUpcoming, setMovieUpcoming] = useState([]);
+
+  useEffect(() => {
+    getDataMovieShowing();
+    getDataMovieUpcoming();
+  }, []);
+
+  const getDataMovieShowing = async () => {
+    try {
+      const result = await axios.get(
+        'movie?page=1&limit=7&sort=id&sortType=ASC',
+      );
+      setMovieShowing(result.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getDataMovieUpcoming = async () => {
+    try {
+      const result = await axios.get('movie/upcoming');
+      setMovieUpcoming(result.data.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <SafeAreaView style={styles.container}>
-      {/* <StatusBar
-        animated={true}
-        // backgroundColor="#D6D8E7"
-        barStyle="dark-content"
-        showHideTransition="fade"
-      /> */}
-
       <ScrollView style={styles.scrollView}>
         <View>
           <View>
@@ -44,38 +61,28 @@ function App(props) {
                 <Text style={styles.textDesc}>view alls</Text>
               </View>
               <View style={styles.cardContainer}>
-                <ScrollView horizontal={true}>
-                  <View style={styles.card}>
-                    <Image
-                      source={require('../../assets/images/movie1.png')}
-                      style={styles.showingImage}
-                    />
-                  </View>
-                  <View style={styles.card}>
-                    <Image
-                      source={require('../../assets/images/movie1.png')}
-                      style={styles.showingImage}
-                    />
-                  </View>
-                  <View style={styles.card}>
-                    <Image
-                      source={require('../../assets/images/movie1.png')}
-                      style={styles.showingImage}
-                    />
-                  </View>
-                  <View style={styles.card}>
-                    <Image
-                      source={require('../../assets/images/movie1.png')}
-                      style={styles.showingImage}
-                    />
-                  </View>
-                  <View style={styles.card}>
-                    <Image
-                      source={require('../../assets/images/movie1.png')}
-                      style={styles.showingImage}
-                    />
-                  </View>
-                </ScrollView>
+                <FlatList
+                  horizontal={true}
+                  data={movieShowing}
+                  navigation={props.navigation}
+                  keyExtractor={item => item.id}
+                  renderItem={({item}) => {
+                    <View style={styles.card}>
+                      <Image
+                        source={require('../../assets/images/movie1.png')}
+                        style={styles.showingImage}
+                      />
+                    </View>;
+                  }}
+                  renderItem={({item}) => (
+                    <View style={styles.card}>
+                      <Image
+                        source={require('../../assets/images/movie1.png')}
+                        style={styles.showingImage}
+                      />
+                    </View>
+                  )}
+                />
               </View>
             </View>
           </View>
@@ -104,113 +111,20 @@ function App(props) {
               </ScrollView>
             </View>
             <View>
-              <ScrollView horizontal={true}>
-                <View style={styles.cardUpcoming}>
-                  <Image
-                    source={require('../../assets/images/movie1.png')}
-                    style={styles.upcomingImage}
-                  />
-                  <Text style={styles.titleUpcoming}>Black Widow</Text>
-                  <Text style={styles.genreUpcoming}>
-                    Action, Adventure, Sci-Fi
-                  </Text>
-
-                  <TouchableOpacity
-                    style={styles.buttonDetail}
-                    onPress={viewMovie}>
-                    <Text style={styles.textButtonDetail}>Details</Text>
-                  </TouchableOpacity>
-                </View>
-                <View style={styles.cardUpcoming}>
-                  <Image
-                    source={require('../../assets/images/movie2.png')}
-                    style={styles.upcomingImage}
-                  />
-                  <Text style={styles.titleUpcoming}>Black Widow</Text>
-                  <Text style={styles.genreUpcoming}>
-                    Action, Adventure, Sci-Fi
-                  </Text>
-
-                  <TouchableOpacity
-                    style={styles.buttonDetail}
-                    onPress={viewMovie}>
-                    <Text style={styles.textButtonDetail}>Details</Text>
-                  </TouchableOpacity>
-                </View>
-                <View style={styles.cardUpcoming}>
-                  <Image
-                    source={require('../../assets/images/movie3.png')}
-                    style={styles.upcomingImage}
-                  />
-                  <Text style={styles.titleUpcoming}>Black Widow</Text>
-                  <Text style={styles.genreUpcoming}>
-                    Action, Adventure, Sci-Fi
-                  </Text>
-
-                  <TouchableOpacity
-                    style={styles.buttonDetail}
-                    onPress={viewMovie}>
-                    <Text style={styles.textButtonDetail}>Details</Text>
-                  </TouchableOpacity>
-                </View>
-                <View style={styles.cardUpcoming}>
-                  <Image
-                    source={require('../../assets/images/movie4.png')}
-                    style={styles.upcomingImage}
-                  />
-                  <Text style={styles.titleUpcoming}>Black Widow</Text>
-                  <Text style={styles.genreUpcoming}>
-                    Action, Adventure, Sci-Fi
-                  </Text>
-
-                  <TouchableOpacity
-                    style={styles.buttonDetail}
-                    onPress={viewMovie}>
-                    <Text style={styles.textButtonDetail}>Details</Text>
-                  </TouchableOpacity>
-                </View>
-                <View style={styles.cardUpcoming}>
-                  <Image
-                    source={require('../../assets/images/movie5.png')}
-                    style={styles.upcomingImage}
-                  />
-                  <Text style={styles.titleUpcoming}>Black Widow</Text>
-                  <Text style={styles.genreUpcoming}>
-                    Action, Adventure, Sci-Fi
-                  </Text>
-
-                  <TouchableOpacity
-                    style={styles.buttonDetail}
-                    onPress={viewMovie}>
-                    <Text style={styles.textButtonDetail}>Details</Text>
-                  </TouchableOpacity>
-                </View>
-                <View style={styles.cardUpcoming}>
-                  <Image
-                    source={require('../../assets/images/movie2.png')}
-                    style={styles.upcomingImage}
-                  />
-                  <Text style={styles.titleUpcoming}>Black Widow</Text>
-                  <Text style={styles.genreUpcoming}>
-                    Action, Adventure, Sci-Fi
-                  </Text>
-
-                  <TouchableOpacity
-                    style={styles.buttonDetail}
-                    onPress={viewMovie}>
-                    <Text style={styles.textButtonDetail}>Details</Text>
-                  </TouchableOpacity>
-                </View>
-              </ScrollView>
+              <FlatList
+                horizontal={true}
+                data={movieUpcoming}
+                keyExtractor={item => item.id}
+                renderItem={({item}) => (
+                  <UpcomingMovieList {...props} data={item} />
+                )}
+              />
             </View>
           </View>
           <View style={styles.sectionEmail}>
             <Text style={styles.heroDesc}>Be the vanguard of the</Text>
             <Text style={styles.heroTitle}>Moviegoers</Text>
             <TextInput style={styles.input} placeholder="Input Your Email" />
-            {/* <View style={styles.shadowButtonJoin}>
-              <Button buttonStyle={styles.buttonJoin} title="Join Now"></Button>
-            </View> */}
             <TouchableOpacity style={styles.buttonJoin}>
               <Text style={{color: 'white'}}>Join Now</Text>
             </TouchableOpacity>
@@ -270,9 +184,6 @@ function App(props) {
               Stop waiting in line. Buy tickets conveniently, watch movies
               quietly.
             </Text>
-          </View>
-          <View style={styles.footer}>
-            <Text></Text>
           </View>
         </View>
       </ScrollView>

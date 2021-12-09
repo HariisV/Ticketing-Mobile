@@ -16,8 +16,9 @@ const ss = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7];
 const pp = [1, 2, 3, 4, 5, 6, 7];
 
 const DetailMovie = props => {
+  const params = props.route.params.setData;
+  console.log(params);
   useEffect(() => {
-    // console.log(props.navigation.setOptions);
     props.navigation.setOptions({
       title: `Choose Seat`,
       headerTintColor: 'white',
@@ -88,10 +89,10 @@ const DetailMovie = props => {
     <View style={styles.hrPrimary2}></View> */}
       <View style={[styles.orderInfo, styles.card]}>
         <View style={styles.infoContainer}>
-          <Image
-            source={require('../../assets/images/sponsor1.png')}
+          {/* <Image
+            source={require('../../../assets/images/sponsor1.png')}
             style={styles.infoImage}
-          />
+          /> */}
           <Text style={styles.infoSchedule}>CineOne21 Cinema</Text>
           <Text style={styles.infoMovie}>Spider-Man: Homecoming</Text>
           <View style={styles.detailContainer}>

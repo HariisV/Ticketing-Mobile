@@ -1,19 +1,28 @@
 import React, {useEffect} from 'react';
 import {View, Text, StyleSheet, Image, ActivityIndicator} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SplashScreen = props => {
   useEffect(() => {
-    setTimeout(() => {
-      const token = false;
-      token
-        ? props.navigation.navigate('AppScreen')
-        : props.navigation.navigate('AuthScreen');
-    }, 3000);
+    checkAuth();
   }, []);
+
+  const checkAuth = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      setTimeout(() => {
+        token
+          ? props.navigation.navigate('AppScreen')
+          : props.navigation.navigate('AuthScreen');
+      }, 2000);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <View style={styles.container}>
       <Image
-        source={require('../../assets/images/logo-w.png')}
+        source={require('../../../assets/images/logo-w.png')}
         style={styles.logo}
       />
       <ActivityIndicator size="large" color="#00ff00" />

@@ -26,13 +26,13 @@ const LandingPage = props => {
       /> */}
       <View style={styles.containerTop}>
         <Image
-          source={require('../../assets/images/logo-w.png')}
+          source={require('../../../assets/images/logo-w.png')}
           style={styles.logo}
         />
       </View>
       <View style={styles.container}>
         <LottieView
-          source={require('../../assets/lotie/home.json')}
+          source={require('../../../assets/lotie/home.json')}
           autoPlay
           loop
           style={styles.animated}

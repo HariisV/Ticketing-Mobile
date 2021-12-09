@@ -8,23 +8,23 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 
 import Home from '../screen/home';
-import Profile from '../screen/profile';
-import HistoryTransaction from '../screen/history';
+import Profile from '../screen/Main/profile';
+import HistoryTransaction from '../screen/Main/history';
 
-import DetailMovie from '../screen/Movie/detail';
-import OrderMovie from '../screen/Movie/order';
-import CheckoutMovie from '../screen/Movie/checkout';
-import ResultTicket from '../screen/View-Ticket';
+import DetailMovie from '../screen/Main/Movie/Detail';
+import OrderMovie from '../screen/Main/Movie/Order';
+import CheckoutMovie from '../screen/Main/Movie/checkout';
+import ResultTicket from '../screen/Main/View-Ticket';
 
-import UpdatePassword from '../screen/profile/update-password';
-import UpdateProfile from '../screen/profile/update-profile';
+import UpdatePassword from '../screen/Main/profile/update-password';
+import UpdateProfile from '../screen/Main/profile/update-profile';
 
 function HomeScreen() {
   return (
     <Stack.Navigator>
       <Stack.Screen
         component={Home}
-        name="Home"
+        name="Home Screen"
         options={{headerShown: false}}
       />
     </Stack.Navigator>
@@ -36,7 +36,7 @@ function HistoryScreen() {
     <Stack.Navigator>
       <Stack.Screen
         component={HistoryTransaction}
-        name="History Transaction"
+        name="History Transaction Screen"
         options={{headerShown: false}}
       />
     </Stack.Navigator>
@@ -47,7 +47,7 @@ function ProfileScreen() {
     <Stack.Navigator>
       <Stack.Screen
         component={Profile}
-        name="Profile"
+        name="Profile Screen"
         options={{headerShown: false}}
       />
     </Stack.Navigator>
@@ -102,7 +102,7 @@ export default function App() {
   return (
     <NavigationContainer independent={true}>
       <Stack.Navigator>
-        <Stack.Screen name="Home" options={{headerShown: false}}>
+        <Stack.Screen name="Home Screen Tab" options={{headerShown: false}}>
           {() => (
             <Tab.Navigator
               screenOptions={({route}) => ({
