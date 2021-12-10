@@ -41,6 +41,7 @@ axiosApiInterfaces.interceptors.response.use(
     return response;
   },
   async function (error) {
+    console.log('eror om JWT =>');
     const refreshToken = await AsyncStorage.getItem('refreshToken');
     if (error.response.status === 403) {
       if (error.response.data.msg === 'jwt expired') {

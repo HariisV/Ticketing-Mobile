@@ -13,11 +13,12 @@ import HistoryTransaction from '../screen/Main/history';
 
 import DetailMovie from '../screen/Main/Movie/Detail';
 import OrderMovie from '../screen/Main/Movie/Order';
-import CheckoutMovie from '../screen/Main/Movie/checkout';
+import CheckoutMovie from '../screen/Main/Movie/Checkout';
 import ResultTicket from '../screen/Main/View-Ticket';
 
 import UpdatePassword from '../screen/Main/profile/update-password';
 import UpdateProfile from '../screen/Main/profile/update-profile';
+import WebView from '../screen/Main/webview';
 
 function HomeScreen() {
   return (
@@ -102,13 +103,6 @@ export default function App() {
   return (
     <NavigationContainer independent={true}>
       <Stack.Navigator>
-        {/* <Stack.Screen
-          name="MainProfileScreen OrderMovie"
-          component={OrderMovie}
-          options={{
-            headerShown: false,
-          }}
-        /> */}
         <Stack.Screen name="Home Screen Tab" options={{headerShown: false}}>
           {() => (
             <Tab.Navigator
@@ -161,6 +155,7 @@ export default function App() {
             headerShown: false,
           }}
         />
+        <Stack.Screen name="WebViewScreen" component={WebView} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -23,8 +23,21 @@ const LoginScreen = props => {
     setForm({...form, [name]: text});
     setIsError({...isError, [name]: false});
   };
+  const getToken = async () => {
+    // const dataToken = await AsyncStorage.getItem('token');
+    // console.log(dataToken);
+    AsyncStorage.getAllKeys((err, keys) => {
+      AsyncStorage.multiGet(keys, (error, stores) => {
+        stores.map((result, i, store) => {
+          console.log({[store[i][0]]: store[i][1]});
+          return true;
+        });
+      });
+    });
+  };
   const handleLogin = async () => {
     try {
+      getToken();
       if (!form.email || !form.password) {
         setIsError({
           email: !form.email,

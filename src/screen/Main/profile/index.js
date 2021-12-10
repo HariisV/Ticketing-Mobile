@@ -6,11 +6,29 @@ import {
   Image,
   Pressable,
   SafeAreaView,
+  TouchableOpacity,
   Button,
 } from 'react-native';
 import Modal from 'react-native-modal';
+import {Root, Popup} from 'react-native-popup-confirm-toast';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import {connect} from 'react-redux';
+import {getUserById} from '../../../stores/action/auth';
+
+const getToken = async () => {
+  // const dataToken = await AsyncStorage.getItem('token');
+  // console.log(dataToken);
+  AsyncStorage.getAllKeys((err, keys) => {
+    AsyncStorage.multiGet(keys, (error, stores) => {
+      stores.map((result, i, store) => {
+        console.log({[store[i][0]]: store[i][1]});
+        return true;
+      });
+    });
+  });
+};
 const Profiles = props => {
   const [isModalVisible, setModalVisible] = useState(false);
   const toggleModal = () => {
@@ -22,64 +40,84 @@ const Profiles = props => {
       screen: data,
     });
   };
-  const handleLogout = async () => {
-    AsyncStorage.removeItem('token');
-    AsyncStorage.removeItem('refreshToken');
+  const handleLogout = () => {
+    // getToken();
+    // console.log(props);
+    // alert('Berhasil Apus');
+    AsyncStorage.clear();
+
+    // props.navigation.navigate('Main');
+    // props.navigation.navigate('AuthScreen', {screen: 'Login'});
+    // props.navigation.navigate('AuthScreen', {screen: 'Login'});
+    // props.navigation.navigate('MainProfileScreen', {
+    //   screen: data,
+    // });
+    // props.navigation.navigate({routeName: 'AuthScreen'});
+    // console.log(props.navigation());
+    // console.log('HAII');
+
+    // props.navigation.navigate('Login');
   };
+  let user = props.auth.userLogin;
   return (
     <SafeAreaView style={styles.wrapper}>
-      <View style={styles.container}>
-        <Image
-          source={require('../../../assets/images/user.png')}
-          style={styles.image}
-        />
-        {/* <Button title="Show modal" onPress={toggleModal} /> */}
-        <View style={{flex: 1}}>
-          <Modal isVisible={isModalVisible}>
-            <View style={{flex: 1}}>
-              <View style={styles.content}>
-                <Text style={styles.contentTitle}>Hi 👋!</Text>
-                <Text style={{fontSize: 26}}>Comming Soon </Text>
+      <Root>
+        <View style={styles.container}>
+          <Image
+            source={require('../../../assets/images/user.png')}
+            style={styles.image}
+          />
+
+          <Text style={styles.name}>
+            {user.firstName + ' ' + user.lastName}
+          </Text>
+          <Text style={styles.email}>{user.email}</Text>
+          <Pressable
+            style={styles.wrapperbutton}
+            onPress={() => handleChangePage('UpdateProfile')}>
+            <View pointerEvents="none">
+              <View style={styles.inputTimes}>
+                <Text style={styles.valueInput}>Update Profile</Text>
               </View>
-              <Button title="Close" onPress={toggleModal} />
             </View>
-          </Modal>
+          </Pressable>
+          <Pressable style={styles.wrapperbutton} onPress={toggleModal}>
+            <View pointerEvents="none">
+              <View style={styles.inputTimes}>
+                <Text style={styles.valueInput}>Update Profile Image</Text>
+              </View>
+            </View>
+          </Pressable>
+          <Pressable
+            style={styles.wrapperbutton}
+            onPress={() => handleChangePage('UpdatePassword')}>
+            <View pointerEvents="none">
+              <View style={styles.inputTimes}>
+                <Text style={styles.valueInput}>Update Password</Text>
+              </View>
+            </View>
+          </Pressable>
+          <TouchableOpacity
+            // onPress={handleLogout}
+            onPress={() =>
+              Popup.show({
+                type: 'confirm',
+                title: 'Logout ?',
+                textBody: 'Are you sure to logout ?',
+                buttonText: 'Logout',
+                confirmText: 'Cancel',
+                okButtonStyle: {backgroundColor: '#5F2EEA'},
+                callback: () => handleLogout(),
+              })
+            }>
+            <View>
+              <View style={styles.inputTimes}>
+                <Text style={styles.valueInput}>Logout</Text>
+              </View>
+            </View>
+          </TouchableOpacity>
         </View>
-        <Text style={styles.name}>Robert Chandra</Text>
-        <Text style={styles.email}>robert@gmail.com</Text>
-        <Pressable
-          style={styles.wrapperbutton}
-          onPress={() => handleChangePage('UpdateProfile')}>
-          <View pointerEvents="none">
-            <View style={styles.inputTimes}>
-              <Text style={styles.valueInput}>Update Profile</Text>
-            </View>
-          </View>
-        </Pressable>
-        <Pressable style={styles.wrapperbutton} onPress={toggleModal}>
-          <View pointerEvents="none">
-            <View style={styles.inputTimes}>
-              <Text style={styles.valueInput}>Update Profile Image</Text>
-            </View>
-          </View>
-        </Pressable>
-        <Pressable
-          style={styles.wrapperbutton}
-          onPress={() => handleChangePage('UpdatePassword')}>
-          <View pointerEvents="none">
-            <View style={styles.inputTimes}>
-              <Text style={styles.valueInput}>Update Password</Text>
-            </View>
-          </View>
-        </Pressable>
-        <Pressable style={styles.wrapperbutton} onPress={handleLogout}>
-          <View pointerEvents="none">
-            <View style={styles.inputTimes}>
-              <Text style={styles.valueInput}>Logout</Text>
-            </View>
-          </View>
-        </Pressable>
-      </View>
+      </Root>
     </SafeAreaView>
   );
 };
@@ -145,4 +183,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Profiles;
+const mapStateToProps = state => ({
+  auth: state.auth,
+});
+
+const mapDispatchToProps = {getUserById};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profiles);

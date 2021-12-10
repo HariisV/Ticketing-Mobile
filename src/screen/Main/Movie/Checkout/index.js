@@ -12,8 +12,20 @@ import {
   TextInput,
   Image,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+
+import {connect} from 'react-redux';
+
+import axios from '../../../../utils/axios';
+
 const CheckoutMovie = props => {
+  const params = props.route.params.setData;
+  const user = props.auth.userLogin;
+
+  const [form, setForm] = useState({
+    name: user.firstName + ' ' + user.lastName,
+    email: user.email,
+    phoneNumber: user.phoneNumber,
+  });
   useEffect(() => {
     props.navigation.setOptions({
       title: `Pay Your Order`,
@@ -23,9 +35,34 @@ const CheckoutMovie = props => {
       },
     });
   });
-  return (
-    // // <SafeAreaView style={styles.container}>
+  const handleCheckout = async () => {
+    try {
+      const setData = {
+        Email: form.email,
+        fullName: form.name,
+        phoneNumber: form.phoneNumber,
+        paymentMethod: 'Midtrans',
+        dateBooking: params.dateBooking,
+        movieId: params.movie.id,
+        scheduleId: params.schedule.id,
+        timeBooking: params.timeBooking,
+        seat: params.selectedSeat,
+      };
+      const result = await axios.post('/booking', setData);
+      props.navigation.navigate('WebViewScreen', {
+        url: result.data.data.paymentUrl,
+      });
+      console.log('HHH');
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
 
+  const handleInput = (data, name) => {
+    setForm({...form, [name]: data});
+  };
+
+  return (
     <ScrollView style={styles.scrollView}>
       <View style={styles.totalPrice}>
         <View style={styles.d_row}>
@@ -39,22 +76,22 @@ const CheckoutMovie = props => {
           <View style={styles.cardPaymentContainer}>
             <View style={styles.cardPayment}>
               <Image
-                source={require('../../../assets/images/payment1.png')}
+                source={require('../../../../assets/images/payment1.png')}
                 style={styles.cardPaymentImage}></Image>
             </View>
             <View style={styles.cardPayment}>
               <Image
-                source={require('../../../assets/images/payment2.png')}
+                source={require('../../../../assets/images/payment2.png')}
                 style={styles.cardPaymentImage}></Image>
             </View>
             <View style={styles.cardPayment}>
               <Image
-                source={require('../../../assets/images/payment3.png')}
+                source={require('../../../../assets/images/payment3.png')}
                 style={styles.cardPaymentImage}></Image>
             </View>
             <View style={styles.cardPayment}>
               <Image
-                source={require('../../../assets/images/payment4.png')}
+                source={require('../../../../assets/images/payment4.png')}
                 style={[
                   styles.cardPaymentImage,
                   styles.cardPaymentPaypal,
@@ -62,12 +99,12 @@ const CheckoutMovie = props => {
             </View>
             <View style={styles.cardPayment}>
               <Image
-                source={require('../../../assets/images/payment5.png')}
+                source={require('../../../../assets/images/payment5.png')}
                 style={styles.cardPaymentImage}></Image>
             </View>
             <View style={styles.cardPayment}>
               <Image
-                source={require('../../../assets/images/payment6.png')}
+                source={require('../../../../assets/images/payment6.png')}
                 style={styles.cardPaymentImage}></Image>
             </View>
           </View>
@@ -76,26 +113,43 @@ const CheckoutMovie = props => {
           <Text style={styles.Title}>Personal Info</Text>
           <View>
             <Text style={styles.inputLabel}>Full Name</Text>
-            <TextInput style={styles.input} placeholder="Input Your Email" />
+            <TextInput
+              style={styles.input}
+              placeholder="Input Your Full Name"
+              value={form.name}
+              onChangeText={e => handleInput(e, 'name')}
+            />
           </View>
           <View>
             <Text style={styles.inputLabel}>Email</Text>
-            <TextInput style={styles.input} placeholder="Input Your Email" />
+            <TextInput
+              style={styles.input}
+              placeholder="Input Your Email"
+              value={form.email}
+              onChangeText={e => handleInput(e, 'email')}
+            />
           </View>
           <View>
             <Text style={styles.inputLabel}>Phone Number</Text>
-            <TextInput style={styles.input} placeholder="Input Your Email" />
+            <TextInput
+              style={styles.input}
+              placeholder="Input Your Phone Number"
+              value={form.phoneNumber}
+              onChangeText={value => handleInput(value, 'phoneNumber')}
+            />
           </View>
           <View style={[styles.dRow, styles.alertWarning]}>
             <Image
-              source={require('../../../assets/images/warning.png')}
+              source={require('../../../../assets/images/warning.png')}
               style={styles.alertImage}
             />
             <Text style={styles.alertText}>Fill your data correctly</Text>
           </View>
         </View>
 
-        <TouchableOpacity style={styles.buttonCheckout}>
+        <TouchableOpacity
+          style={styles.buttonCheckout}
+          onPress={handleCheckout}>
           <Text style={styles.buttonCheckoutText}>Pay your order</Text>
         </TouchableOpacity>
       </View>
@@ -110,12 +164,9 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 20,
     marginHorizontal: 20,
-    // paddingTop: StatusBar.currentHeight,
   },
   scrollView: {
-    // marginHorizontal: 10,
     backgroundColor: '#F7F7FC',
-    // marginHorizontal: 20,
   },
   hrPrimary: {
     marginTop: 20,
@@ -126,7 +177,6 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: 'white',
     padding: 20,
-    // borderRadius: 20,
     marginVertical: 20,
     marginBottom: 20,
     backgroundColor: 'white',
@@ -149,8 +199,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   cardPaymentImage: {
-    // padding: 20,
-    // margin: 50,
     width: 100,
     height: 80,
 
@@ -172,7 +220,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#5F2EEA',
     padding: 20,
     borderRadius: 5,
-    // paddingHorizontal: '38%',
     marginBottom: 30,
     elevation: 9,
     shadowOffset: {width: 0, height: 0},
@@ -243,4 +290,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CheckoutMovie;
+const mapStateToProps = state => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps)(CheckoutMovie);
+// export default CheckoutMovie;

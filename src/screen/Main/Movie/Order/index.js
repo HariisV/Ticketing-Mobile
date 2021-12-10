@@ -7,6 +7,7 @@ import {
   ScrollView,
   StatusBar,
   FlatList,
+  Image,
   TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
@@ -32,9 +33,7 @@ const DetailMovie = props => {
   useEffect(() => {
     console.log(props.route.params);
   }, []);
-  const handleCheckout = () => {
-    props.navigation.navigate('Main', {screen: 'CheckoutMovie'});
-  };
+
   const handleSelectedSeat = data => {
     if (selectedSeat.includes(data)) {
       const deleteSeat = selectedSeat.filter(el => {
@@ -42,19 +41,22 @@ const DetailMovie = props => {
       });
       setSelectedSeat(deleteSeat);
     } else {
-      setSelectedSeat([...selectedSeat, data]);
+      if (selectedSeat.length < 4) setSelectedSeat([...selectedSeat, data]);
     }
   };
-
-  const handleResetSeat = () => {
-    setSelectedSeat([]);
-  };
-
-  const handleBookingSeat = () => {
-    console.log(params);
+  const handleCheckout = () => {
+    const setData = {
+      ...params,
+      selectedSeat: selectedSeat,
+    };
+    props.navigation.navigate('Main', {
+      screen: 'CheckoutMovie',
+      params: {setData},
+    });
   };
 
   let bookingDay = moment(params.dateBooking).format('dddd, DD/MM/YYYY');
+  // let selectedSeatView = selectedSeat.join(', ');
 
   return (
     <ScrollView style={styles.scrollView}>
@@ -80,7 +82,9 @@ const DetailMovie = props => {
             )}
           />
         </View>
-
+        {selectedSeat.length == 4 ? (
+          <Text style={styles.limitSeat}>Maksimal 4 Seat</Text>
+        ) : null}
         <Text style={styles.titleKey}>Seating Key</Text>
         <View style={styles.keyContainer}>
           <View style={styles.keyTitleContainer}>
@@ -110,7 +114,22 @@ const DetailMovie = props => {
 
       <View style={[styles.orderInfo, styles.card]}>
         <View style={styles.infoContainer}>
-          <Text style={styles.infoSchedule}>CineOne21 Cinema</Text>
+          <Image
+            // source={require('../../../../assets/images/sponsor1.png')}
+            source={
+              params.schedule.premier == 'hiFlix'
+                ? require(`../../../../assets/images/hiFlix.png`)
+                : params.schedule.premier == 'ebuId'
+                ? require(`../../../../assets/images/ebuId.png`)
+                : params.schedule.premier == 'CineOne21'
+                ? require(`../../../../assets/images/CineOne21.png`)
+                : require(`../../../../assets/images/CineOne21.png`)
+            }
+            style={styles.infoImage}
+          />
+          <Text style={styles.infoSchedule}>
+            {params.schedule.premier} Cinema
+          </Text>
           <Text style={styles.infoMovie}>{params.movie.name}</Text>
           <View style={styles.detailContainer}>
             <Text style={styles.detailQ}>{bookingDay}</Text>
@@ -118,24 +137,34 @@ const DetailMovie = props => {
           </View>
           <View style={styles.detailContainer}>
             <Text style={styles.detailQ}>One ticket price</Text>
-            <Text style={styles.detailA}>$10</Text>
+            <Text style={styles.detailA}>${params.schedule.price}</Text>
           </View>
           <View style={styles.detailContainer}>
             <Text style={styles.detailQ}>Seat choosed</Text>
-            <Text style={styles.detailA}>C4, C5, C6</Text>
+            <Text style={styles.detailA}>
+              {selectedSeat.length > 0 ? selectedSeat.join(', ') : '-'}
+            </Text>
           </View>
           <View style={styles.hrLight}></View>
           <View style={styles.detailContainer}>
             <Text style={styles.detailQPrice}>Total Payment</Text>
-            <Text style={styles.detailAPrice}>$30</Text>
+            <Text style={styles.detailAPrice}>
+              $ {selectedSeat.length * params.schedule.price}
+            </Text>
           </View>
         </View>
       </View>
-      <TouchableOpacity
-        style={styles.buttonCheckout}
-        onPress={handleBookingSeat}>
-        <Text style={styles.buttonCheckoutText}>Chcekout Now</Text>
-      </TouchableOpacity>
+      {selectedSeat.length > 0 ? (
+        <TouchableOpacity
+          style={styles.buttonCheckout}
+          onPress={handleCheckout}>
+          <Text style={styles.buttonCheckoutText}>Checkout Now</Text>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity style={styles.buttonBookLocked}>
+          <Text style={styles.buttonCheckoutText}>Please Select One Seat</Text>
+        </TouchableOpacity>
+      )}
     </ScrollView>
   );
 };
@@ -260,7 +289,7 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   titleKey: {
-    marginTop: 40,
+    marginTop: 10,
     // marginBottom: 2,
     fontSize: 20,
     fontWeight: '600',
@@ -344,6 +373,23 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     alignSelf: 'center',
     fontSize: 16,
+  },
+  limitSeat: {
+    textAlign: 'center',
+    marginVertical: 5,
+  },
+
+  buttonBookLocked: {
+    marginTop: 40,
+    backgroundColor: '#9985d0',
+    padding: 20,
+    borderRadius: 5,
+    marginBottom: 30,
+    elevation: 9,
+    shadowOffset: {width: 0, height: 0},
+    shadowOpacity: 51.1,
+    shadowRadius: 5,
+    borderRadius: 10,
   },
 });
 

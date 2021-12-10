@@ -60,5 +60,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 10,
   },
+  buttonDetailLock: {
+    borderRadius: 10,
+    marginBottom: 30,
+    borderColor: '#9985d0',
+    backgroundColor: '#9985d0',
+    borderWidth: 1,
+    color: 'black',
+    padding: 15,
+    marginTop: 300,
+  },
 });
 export default styles;
