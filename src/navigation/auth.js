@@ -18,7 +18,11 @@ function AuthNavigator() {
         name="Login"
         options={{headerShown: false}}
       />
-      <Stack.Screen component={Register} name="Register" />
+      <Stack.Screen
+        component={Register}
+        name="Register"
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 }

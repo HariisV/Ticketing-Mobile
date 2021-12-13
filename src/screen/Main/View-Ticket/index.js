@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import moment from 'moment';
 import {View, Text, StyleSheet, ScrollView, Image} from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import QRCode from 'react-native-qrcode-svg';
+import {URL_BACKEND} from '@env';
+
 const CheckoutMovie = props => {
   useEffect(() => {
     props.navigation.setOptions({
@@ -12,7 +14,8 @@ const CheckoutMovie = props => {
       },
     });
   });
-
+  console.log(props);
+  let data = props.route.params.data;
   return (
     // // <SafeAreaView style={styles.container}>
 
@@ -25,51 +28,55 @@ const CheckoutMovie = props => {
           />
           <Text style={styles.title}>Thank You!</Text>
           <Text style={styles.success}>Your transaction was successful</Text>
-          <Image
-            source={require('../../../assets/images/qr.png')}
-            style={styles.qr}
-          />
+          <View style={styles.qr}>
+            <QRCode
+              value={`${URL_BACKEND}/booking/usedTicket/${data.id}`}
+              size={150}
+            />
+          </View>
           <View style={styles.hr}></View>
           <View>
             <View style={[styles.directionRow, styles.between]}>
               <View style={styles.containerDetail}>
                 <Text style={styles.label}>Movie</Text>
                 <Text style={styles.value} numberOfLines={1}>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut
-                  at ipsam necessitatibus perferendis sit consequuntur
-                  consequatur hic. Magni, laboriosam dolorem rerum beatae
-                  excepturi asperiores, labore inventore quam reiciendis
-                  veritatis iusto!
+                  {data.name}
                 </Text>
               </View>
               <View style={styles.containerDetail}>
-                <Text style={styles.label}>Category</Text>
-                <Text style={styles.value}>PG-13</Text>
+                <Text style={styles.label}>Premier</Text>
+                <Text style={styles.value}>{data.premier}</Text>
               </View>
             </View>
             <View style={[styles.directionRow, styles.between]}>
               <View style={styles.containerDetail}>
                 <Text style={styles.label}>Date</Text>
-                <Text style={styles.value}>07 Jul</Text>
+                <Text style={styles.value}>
+                  {moment(data.dateBooking).format('DD MMM')}
+                </Text>
               </View>
               <View style={styles.containerDetail}>
                 <Text style={styles.label}>Time</Text>
-                <Text style={styles.value}>2:00pm</Text>
+                <Text style={styles.value}>
+                  {data.timeBooking ? data.timeBooking.slice(0, 5) : ''}
+                </Text>
               </View>
             </View>
             <View style={[styles.directionRow, styles.between]}>
               <View style={styles.containerDetail}>
                 <Text style={styles.label}>Count</Text>
-                <Text style={styles.value}>3 pcs</Text>
+                <Text style={styles.value}>{data.totalTicket} pcs</Text>
               </View>
               <View style={styles.containerDetail}>
                 <Text style={styles.label}>Seats</Text>
-                <Text style={styles.value}>C4, C5, C6</Text>
+                <Text style={styles.value}>
+                  {data.seat.length > 0 ? data.seat.join(', ') : '-'}
+                </Text>
               </View>
             </View>
             <View style={[styles.card2, styles.directionRow, styles.between]}>
               <Text style={styles.total}>Total</Text>
-              <Text style={styles.total}>$30.00</Text>
+              <Text style={styles.total}>${data.totalPayment}</Text>
             </View>
           </View>
         </View>
@@ -146,8 +153,9 @@ const styles = StyleSheet.create({
     marginRight: 25,
   },
   qr: {
-    width: 200,
-    height: 200,
+    marginVertical: 20,
+    // width: 200,
+    // height: 200,
     alignSelf: 'center',
   },
   title: {

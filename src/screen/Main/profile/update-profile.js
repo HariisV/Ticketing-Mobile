@@ -52,8 +52,8 @@ const UpdateProfile = props => {
         textBody: 'Success To Update Profile. ',
         buttonText: 'Close',
       });
-
-      console.log(result);
+      await props.getUserById(data.id);
+      setIsChange(false);
     } catch (error) {
       console.log(error.response);
     }
@@ -108,7 +108,7 @@ const UpdateProfile = props => {
               <TouchableOpacity
                 style={[styles.buttonDetail, {marginTop: 10}]}
                 onPress={handleSubmit}>
-                <Text style={styles.textButtonDetail}>Updates sProfile</Text>
+                <Text style={styles.textButtonDetail}>Update Profile</Text>
               </TouchableOpacity>
             ) : (
               <>
@@ -118,8 +118,7 @@ const UpdateProfile = props => {
                   </Text>
                 ) : null}
                 <TouchableOpacity
-                  style={[styles.buttonDetailLock, {marginTop: 10}]}
-                  onPress={handleSubmit}>
+                  style={[styles.buttonDetailLock, {marginTop: 10}]}>
                   <Text style={styles.textButtonDetail}>Update Profile</Text>
                 </TouchableOpacity>
               </>

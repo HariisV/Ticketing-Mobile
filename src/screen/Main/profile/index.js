@@ -1,51 +1,46 @@
 import React, {useEffect, useState} from 'react';
+import {URL_BACKEND} from '@env';
+import {launchImageLibrary, launchCamera} from 'react-native-image-picker';
+
 import {
   View,
   Text,
-  StyleSheet,
   Image,
   Pressable,
   SafeAreaView,
   TouchableOpacity,
-  Button,
+  PermissionsAndroid,
 } from 'react-native';
-import Modal from 'react-native-modal';
-import {Root, Popup} from 'react-native-popup-confirm-toast';
+import {Root, Popup, SPSheet} from 'react-native-popup-confirm-toast';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import {connect} from 'react-redux';
 import {getUserById} from '../../../stores/action/auth';
+import axios from '../../../utils/axios';
+import styles from './style-profile';
+import Icon from 'react-native-vector-icons/Feather';
 
-const getToken = async () => {
-  // const dataToken = await AsyncStorage.getItem('token');
-  // console.log(dataToken);
-  AsyncStorage.getAllKeys((err, keys) => {
-    AsyncStorage.multiGet(keys, (error, stores) => {
-      stores.map((result, i, store) => {
-        console.log({[store[i][0]]: store[i][1]});
-        return true;
-      });
-    });
-  });
-};
 const Profiles = props => {
-  const [isModalVisible, setModalVisible] = useState(false);
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
-  };
-
   const handleChangePage = data => {
     props.navigation.navigate('MainProfileScreen', {
       screen: data,
     });
   };
+
   const handleLogout = () => {
     // getToken();
     // console.log(props);
     // alert('Berhasil Apus');
     AsyncStorage.clear();
-
+    // props.navigation.dispatch(
+    //   NavigationActions.reset({
+    //     index: 0,
+    //     actions: [NavigationActions.navigate({routeName: 'AuthScreen'})],
+    //   }),
+    // );
+    // props.navigation.dispatch(
+    //   StackActions.replace('Home', {test: 'Test Params'}),
+    // );
     // props.navigation.navigate('Main');
     // props.navigation.navigate('AuthScreen', {screen: 'Login'});
     // props.navigation.navigate('AuthScreen', {screen: 'Login'});
@@ -55,8 +50,149 @@ const Profiles = props => {
     // props.navigation.navigate({routeName: 'AuthScreen'});
     // console.log(props.navigation());
     // console.log('HAII');
-
     // props.navigation.navigate('Login');
+  };
+  const functionImageLibrary = () => {
+    let options = {
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    console.log('HA');
+    launchImageLibrary(options, response => {
+      console.log('hap');
+      // console.log('Response = ', response);
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+        alert(response.customButton);
+      } else {
+        console.log(response.assets[0]);
+        handleImageSubmit({
+          uri: response.assets[0].uri,
+          name: response.assets[0].fileName,
+          type: response.assets[0].type,
+        });
+      }
+    });
+  };
+  const handleImageSubmit = data => {
+    const setData = {
+      image: data,
+    };
+
+    const formData = new FormData();
+    for (const data in setData) {
+      formData.append(data, setData[data]);
+    }
+
+    console.log('FORM DATA =>', formData);
+    axios
+      .patch('/user/update/image', formData)
+      .then(res => {
+        console.log(res);
+        Popup.show({
+          type: 'success',
+          title: 'Success!',
+          timing: 2000,
+          textBody: 'Success To Update Image. ',
+          buttonText: 'Close',
+        });
+        props.getUserById(user.id);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+  const handleDeleteImage = () => {
+    handleImageSubmit(null);
+  };
+  const requestCameraPermission = async () => {
+    try {
+      console.log('WAOWKOWKOAKW');
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: 'App Camera Permission',
+          message: 'App needs access to your camera ',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('Camera permission given');
+      } else {
+        console.log('Camera permission denied');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+  const launchCameraFuncion = () => {
+    let options = {
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    launchCamera(options, response => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+        alert(response.customButton);
+      } else if (response.errorCode) {
+        requestCameraPermission();
+      } else {
+        // const source = {uri: response.uri};
+        console.log('Successs =>', response.assets[0]);
+        // console.log('response', JSON.stringify(response));
+        handleImageSubmit({
+          uri: response.assets[0].uri,
+          name: response.assets[0].fileName,
+          type: response.assets[0].type,
+        });
+      }
+    });
+  };
+
+  const component = props => {
+    return (
+      <>
+        <View style={styles.containerComponent}>
+          <TouchableOpacity
+            style={styles.containerText}
+            // onPress={requestCameraPermission}
+            onPress={launchCameraFuncion}>
+            <Icon name="camera" style={styles.inputIcon} size={26} />
+            <Text style={styles.textIcon}>Upload From Camera</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.hrComponent} />
+          <TouchableOpacity
+            style={styles.containerText}
+            onPress={functionImageLibrary}>
+            <Icon name="image" style={styles.inputIcon} size={26} />
+            <Text style={styles.textIcon}>Upload From Gallery</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.hrComponent} />
+          <TouchableOpacity
+            style={styles.containerText}
+            onPress={handleDeleteImage}>
+            <Icon name="trash-2" style={styles.inputIcon} size={26} />
+            <Text style={styles.textIcon}>Delete Image</Text>
+          </TouchableOpacity>
+        </View>
+      </>
+    );
   };
   let user = props.auth.userLogin;
   return (
@@ -64,10 +200,18 @@ const Profiles = props => {
       <Root>
         <View style={styles.container}>
           <Image
-            source={require('../../../assets/images/user.png')}
+            // source={{
+            //   uri: `${URL_BACKEND}uploads/user/${user.image}`,
+            // }}
+            source={
+              user.image
+                ? {
+                    uri: `${URL_BACKEND}uploads/user/${user.image}`,
+                  }
+                : require('../../../assets/images/user2.png')
+            }
             style={styles.image}
           />
-
           <Text style={styles.name}>
             {user.firstName + ' ' + user.lastName}
           </Text>
@@ -81,13 +225,20 @@ const Profiles = props => {
               </View>
             </View>
           </Pressable>
-          <Pressable style={styles.wrapperbutton} onPress={toggleModal}>
-            <View pointerEvents="none">
-              <View style={styles.inputTimes}>
-                <Text style={styles.valueInput}>Update Profile Image</Text>
-              </View>
+          <TouchableOpacity
+            style={styles.wrapperbutton}
+            onPress={() => {
+              const spSheet = SPSheet;
+              spSheet.show({
+                component: () => component({...props, spSheet}),
+                dragFromTopOnly: true,
+                height: 260,
+              });
+            }}>
+            <View style={styles.inputTimes}>
+              <Text style={styles.valueInput}>Update Profile Image</Text>
             </View>
-          </Pressable>
+          </TouchableOpacity>
           <Pressable
             style={styles.wrapperbutton}
             onPress={() => handleChangePage('UpdatePassword')}>
@@ -98,7 +249,6 @@ const Profiles = props => {
             </View>
           </Pressable>
           <TouchableOpacity
-            // onPress={handleLogout}
             onPress={() =>
               Popup.show({
                 type: 'confirm',
@@ -122,71 +272,8 @@ const Profiles = props => {
   );
 };
 
-const fontFam = {fontFamily: 'Mulish-Bold'};
-const styles = StyleSheet.create({
-  wrapper: {
-    backgroundColor: 'white',
-    height: '100%',
-  },
-  container: {
-    marginTop: 40,
-    marginHorizontal: 20,
-    // marginTop: 100,
-    justifyContent: 'center',
-    // backgroundColor: 'white',
-  },
-  inputTimes: {
-    borderColor: '#EFF0F6',
-    borderWidth: 1,
-    marginBottom: 20,
-    backgroundColor: '#EFF0F6',
-    borderRadius: 15,
-  },
-  valueInput: {
-    ...fontFam,
-    // fontSize: 44,
-    padding: 25,
-    fontSize: 20,
-    color: 'black',
-  },
-  image: {
-    width: 100,
-    height: 100,
-    alignSelf: 'center',
-    marginTop: 30,
-  },
-  name: {
-    ...fontFam,
-    textAlign: 'center',
-    fontSize: 28,
-    marginTop: 20,
-    fontWeight: 'bold',
-  },
-  email: {
-    ...fontFam,
-    textAlign: 'center',
-    fontSize: 16,
-    marginTop: 5,
-    marginBottom: 30,
-  },
-  content: {
-    backgroundColor: 'white',
-    padding: 22,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 4,
-    borderColor: 'rgba(0, 0, 0, 0.1)',
-  },
-  contentTitle: {
-    fontSize: 20,
-    marginBottom: 12,
-  },
-});
-
 const mapStateToProps = state => ({
   auth: state.auth,
 });
-
 const mapDispatchToProps = {getUserById};
-
 export default connect(mapStateToProps, mapDispatchToProps)(Profiles);

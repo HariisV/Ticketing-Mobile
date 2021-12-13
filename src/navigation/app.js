@@ -19,6 +19,7 @@ import ResultTicket from '../screen/Main/View-Ticket';
 import UpdatePassword from '../screen/Main/profile/update-password';
 import UpdateProfile from '../screen/Main/profile/update-profile';
 import WebView from '../screen/Main/webview';
+import WaitingPayment from '../screen/Main/WaitingPayment';
 
 function HomeScreen() {
   return (
@@ -156,6 +157,13 @@ export default function App() {
           }}
         />
         <Stack.Screen name="WebViewScreen" component={WebView} />
+        <Stack.Screen
+          name="WaitingPayment"
+          component={WaitingPayment}
+          options={{
+            headerShown: false,
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -12,15 +12,15 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import Seat from '../../../../components/seat';
+import axios from '../../../../utils/axios';
 
 const listSeat = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
 
 const DetailMovie = props => {
   const params = props.route.params.setData;
-  console.log(params);
   const [selectedSeat, setSelectedSeat] = useState([]);
-  const [reservedSeat, setReservedSeat] = useState(['A1', 'C7']);
-
+  const [reservedSeat, setReservedSeat] = useState([]);
+  // const reservedSeat = [];
   useEffect(() => {
     props.navigation.setOptions({
       title: `Choose Seat`,
@@ -31,7 +31,7 @@ const DetailMovie = props => {
     });
   });
   useEffect(() => {
-    console.log(props.route.params);
+    getReversedSeat();
   }, []);
 
   const handleSelectedSeat = data => {
@@ -54,10 +54,25 @@ const DetailMovie = props => {
       params: {setData},
     });
   };
+  const getReversedSeat = () => {
+    let date = moment(params.dateBooking).format('YYYY-MM-DD');
+    axios
+      .get(
+        `booking/seat?idSchedule=${params.schedule.id}&idMovie=${params.movie.id}&dateSchedule=${date}&timeSchedule=${params.timeBooking}:00`,
+      )
+      .then(res => {
+        let value = [];
+        res.data.data.map(e => {
+          value.push(e.seat);
+        });
+        setReservedSeat(value);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   let bookingDay = moment(params.dateBooking).format('dddd, DD/MM/YYYY');
-  // let selectedSeatView = selectedSeat.join(', ');
-
   return (
     <ScrollView style={styles.scrollView}>
       <StatusBar

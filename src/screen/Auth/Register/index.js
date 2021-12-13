@@ -7,117 +7,152 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
-import {Button} from 'react-native-elements';
 import {Text} from 'react-native-elements';
 import styles from '../style';
+import axios from '../../../utils/axios';
+import Input from '../../../components/Auth/input';
+import {Root, Popup} from 'react-native-popup-confirm-toast';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {connect} from 'react-redux';
-import {Login, getUserById} from '../../../stores/action/auth';
-
-// props.navigation.navigate('AppScreen', {screen: 'home'});
-const LoginScreen = props => {
-  const [form, setForm] = useState({email: '', password: ''});
-  const [isError, setIsError] = useState({email: false, password: false});
+const Register = props => {
+  const [form, setForm] = useState({
+    email: '',
+    password: '',
+    firstName: '',
+    lastName: '',
+    phoneNumber: '',
+  });
+  const [isError, setIsError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
   const handleChangeForm = (text, name) => {
     setForm({...form, [name]: text});
-    setIsError({...isError, [name]: false});
   };
-  const handleLogin = async () => {
+
+  const handleRegister = async () => {
     try {
-      if (!form.email || !form.password) {
-        setIsError({
-          email: !form.email,
-          password: !form.password,
+      setIsLoading(true);
+      const result = await axios.post('/auth/register', form);
+      setTimeout(() => {
+        setIsLoading(false);
+        Popup.show({
+          type: 'success',
+          title: 'Success!',
+          textBody: 'Success Register, Verif Now. ',
+          callback: () => props.navigation.navigate('Login'),
+          buttonText: 'Login Now',
         });
-      } else {
-        setIsLoading(true);
-        const result = await props.Login(form);
-        await props.getUserById(result.value.data.data.id);
-        await AsyncStorage.setItem('token', result.value.data.data.token);
-        await AsyncStorage.setItem(
-          'refreshToken',
-          result.value.data.data.refreshToken,
-        );
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 1000);
-      }
+      }, 3000);
     } catch (error) {
       setTimeout(() => {
-        if (error.response.data.msg == 'Email not registed') {
-          setIsError({
-            email: true,
-            password: false,
-          });
-        } else if (error.response.data.msg == 'Wrong password') {
-          setIsError({
-            password: true,
-            email: false,
-          });
-        }
         setIsLoading(false);
-      }, 1000);
+        setIsError(error.response.data.msg);
+      }, 2000);
+      console.log(error.response.data.msg);
     }
   };
+  console.log(isError);
   return (
     <ScrollView style={styles.bg}>
-      <View style={styles.container}>
-        <Image
-          source={require('../../../assets/images/logo.png')}
-          width={305}
-        />
+      <Root>
+        <View style={[styles.container, {marginTop: 0}]}>
+          <Text h3 style={[styles.h1, {marginTop: 20, marginBottom: 10}]}>
+            Register
+          </Text>
+          <View style={{flexDirection: 'row'}}>
+            <View style={{width: '48%', marginRight: '2%'}}>
+              <Input
+                isError={isError}
+                handleChangeForm={handleChangeForm}
+                name="firstName"
+                text="First Name"
+                placeholder="First Name"
+              />
+            </View>
+            <View style={{width: '48%', marginLeft: '2%'}}>
+              <Input
+                isError={isError}
+                handleChangeForm={handleChangeForm}
+                name="lastName"
+                text="Last Name"
+                placeholder="Last Name"
+              />
+            </View>
+          </View>
+          <Input
+            isError={isError}
+            handleChangeForm={handleChangeForm}
+            name="email"
+            text="Email"
+            placeholder="Input Your Mail"
+          />
+          <Input
+            isError={isError}
+            handleChangeForm={handleChangeForm}
+            name="password"
+            text="Password"
+            isPassword={true}
+            placeholder="Create A Password"
+          />
+          <Input
+            isError={isError}
+            handleChangeForm={handleChangeForm}
+            name="phoneNumber"
+            text="Phone Number"
+            isNumber={true}
+            placeholder="Enter You Phone Number"
+          />
 
-        <Text h3 style={styles.h1}>
-          Sign In
-        </Text>
-        <View>
-          <Text style={styles.label}>Email</Text>
-          <TextInput
-            style={[styles.input, isError.email ? styles.inputInvalid : '']}
-            placeholder="Input Your Email"
-            onChangeText={text => handleChangeForm(text, 'email')}
-          />
-          <Text style={isError.email ? styles.invalid : styles.none}>
-            Your Email Is Wrong
+          {!form.email ||
+          !form.password ||
+          !form.firstName ||
+          !form.lastName ||
+          !form.phoneNumber ? (
+            <Text style={{marginTop: 20, textAlign: 'center'}}>
+              Semua Input Harus Diisi
+            </Text>
+          ) : isError ? (
+            <Text style={{marginTop: 20, textAlign: 'center'}}>{isError}</Text>
+          ) : null}
+          <View style={{width: '100%'}}>
+            <TouchableOpacity
+              style={[styles.button, {marginTop: 10}]}
+              onPress={
+                isLoading ||
+                !form.email ||
+                !form.password ||
+                !form.firstName ||
+                !form.lastName ||
+                !form.phoneNumber
+                  ? null
+                  : handleRegister
+              }>
+              {isLoading ? (
+                <ActivityIndicator size="large" color="white" />
+              ) : !form.email ||
+                !form.password ||
+                !form.firstName ||
+                !form.lastName ||
+                !form.phoneNumber ? (
+                <>
+                  <Text style={styles.buttonText}>Invalid Value</Text>
+                </>
+              ) : (
+                <Text style={styles.buttonText}>Registers</Text>
+              )}
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.alReady}>
+            Already Have An Account?{' '}
+            <Text
+              style={styles.alReadyLink}
+              onPress={() => props.navigation.navigate('Login')}>
+              Login Now
+            </Text>
           </Text>
         </View>
-        <View>
-          <Text style={styles.label}>Password</Text>
-          <TextInput
-            style={[styles.input, isError.password ? styles.inputInvalid : '']}
-            placeholder="Enter Your Password"
-            secureTextEntry={true}
-            onChangeText={text => handleChangeForm(text, 'password')}
-          />
-          <Text style={isError.password ? styles.invalid : styles.none}>
-            Your Password Is Wrong
-          </Text>
-        </View>
-        <View style={{width: '100%'}}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={isLoading ? null : handleLogin}>
-            {isLoading ? (
-              <ActivityIndicator size="large" color="white" />
-            ) : (
-              <Text style={styles.buttonText}>Login Now</Text>
-            )}
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.alReady}>
-          Do you already have an account ? Log in
-        </Text>
-      </View>
+      </Root>
     </ScrollView>
   );
 };
 
-const mapStateToProps = state => ({
-  auth: state.auth,
-});
-
-const mapDispatchToProps = {Login, getUserById};
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
+export default Register;

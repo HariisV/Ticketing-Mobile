@@ -1,13 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  Text,
-  SafeAreaView,
-  ScrollView,
-  Image,
-  Pressable,
-  FlatList,
-} from 'react-native';
+import {View, SafeAreaView, ScrollView, Image, FlatList} from 'react-native';
 
 import moment from 'moment';
 import axios from '../../../../utils/axios';
@@ -86,7 +78,6 @@ const DetailMovie = props => {
         setData,
       },
     });
-    console.log(data);
   };
 
   const handleTime = (times, schedule) => {

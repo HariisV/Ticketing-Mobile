@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     borderColor: '#dc3545e3',
   },
   label: {
-    marginTop: 10,
+    marginTop: 30,
     fontSize: 20,
     fontWeight: '600',
     fontFamily: 'Mulish-Regular',
@@ -64,6 +64,10 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontFamily: 'Mulish-Bold',
     fontWeight: '600',
+  },
+  alReadyLink: {
+    color: '#5F2EEA',
+    fontWeight: 'bold',
   },
 });
 export default styles;

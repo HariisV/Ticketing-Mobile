@@ -18,7 +18,6 @@ function Seat(props) {
     setLeftSideSeat(leftSide);
     setRightSideSeat(rightSide);
   };
-  console.log(props);
   return (
     <View style={styles.container}>
       <View style={styles.leftSide}>

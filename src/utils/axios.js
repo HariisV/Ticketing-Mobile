@@ -2,7 +2,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {URL_BACKEND} from '@env';
 const axiosApiInterfaces = axios.create({
-  baseURL: 'http://192.168.100.22:3001/',
+  baseURL: URL_BACKEND,
 });
 
 const setToken = async (data, refreshToken) => {
@@ -41,7 +41,7 @@ axiosApiInterfaces.interceptors.response.use(
     return response;
   },
   async function (error) {
-    console.log('eror om JWT =>');
+    console.log('eror om JWT =>', error);
     const refreshToken = await AsyncStorage.getItem('refreshToken');
     if (error.response.status === 403) {
       if (error.response.data.msg === 'jwt expired') {

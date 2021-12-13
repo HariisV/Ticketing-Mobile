@@ -11,19 +11,10 @@ import LottieView from 'lottie-react-native';
 
 const LandingPage = props => {
   const handleChangePage = () => {
-    props.navigation.navigate('Login');
+    props.navigation.navigate('Register');
   };
-  // useEffect(() => {
-  //   StatusBar.setHidden(true);
-  // });
   return (
     <View style={styles.Wrapper}>
-      {/* <StatusBar
-        animated={true}
-        backgroundColor="#61dafb"
-        // barStyle={statusBarStyle}
-        hidden={true}
-      /> */}
       <View style={styles.containerTop}>
         <Image
           source={require('../../../assets/images/logo-w.png')}
@@ -39,10 +30,6 @@ const LandingPage = props => {
         />
       </View>
       <View style={styles.containerBottom}>
-        {/* <Image
-          source={require('../../assets/images/logo-w.png')}
-          style={styles.logo}
-        /> */}
         <Text style={styles.title}>Cara Baru Nonton Bioskop</Text>
         <Text style={styles.desc}>
           Stop waiting in line. Buy tickets conveniently, watch movies quietly.
@@ -50,7 +37,7 @@ const LandingPage = props => {
         <TouchableOpacity
           style={styles.buttonDetail}
           onPress={handleChangePage}>
-          <Text style={styles.textButtonDetail}>Login</Text>
+          <Text style={styles.textButtonDetail}>Register</Text>
         </TouchableOpacity>
       </View>
     </View>

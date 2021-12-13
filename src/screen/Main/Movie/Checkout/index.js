@@ -1,20 +1,15 @@
 import React, {useState, useEffect} from 'react';
-import moment from 'moment';
 import {
   View,
   Text,
   StyleSheet,
-  SafeAreaView,
   ScrollView,
-  StatusBar,
-  Pressable,
   TouchableOpacity,
   TextInput,
   Image,
 } from 'react-native';
 
 import {connect} from 'react-redux';
-
 import axios from '../../../../utils/axios';
 
 const CheckoutMovie = props => {
@@ -26,6 +21,7 @@ const CheckoutMovie = props => {
     email: user.email,
     phoneNumber: user.phoneNumber,
   });
+
   useEffect(() => {
     props.navigation.setOptions({
       title: `Pay Your Order`,
@@ -49,10 +45,9 @@ const CheckoutMovie = props => {
         seat: params.selectedSeat,
       };
       const result = await axios.post('/booking', setData);
-      props.navigation.navigate('WebViewScreen', {
+      props.navigation.navigate('WaitingPayment', {
         url: result.data.data.paymentUrl,
       });
-      console.log('HHH');
     } catch (error) {
       console.log(error.response);
     }
@@ -134,6 +129,7 @@ const CheckoutMovie = props => {
             <TextInput
               style={styles.input}
               placeholder="Input Your Phone Number"
+              keyboardType="numeric"
               value={form.phoneNumber}
               onChangeText={value => handleInput(value, 'phoneNumber')}
             />
@@ -147,11 +143,18 @@ const CheckoutMovie = props => {
           </View>
         </View>
 
-        <TouchableOpacity
-          style={styles.buttonCheckout}
-          onPress={handleCheckout}>
-          <Text style={styles.buttonCheckoutText}>Pay your order</Text>
-        </TouchableOpacity>
+        {!form.phoneNumber || !form.email || !form.name ? (
+          <TouchableOpacity
+            style={[styles.buttonCheckout, {backgroundColor: '#adb5bd'}]}>
+            <Text style={styles.buttonCheckoutText}>Enter Your Data</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={styles.buttonCheckout}
+            onPress={handleCheckout}>
+            <Text style={styles.buttonCheckoutText}>Pay your order</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </ScrollView>
   );

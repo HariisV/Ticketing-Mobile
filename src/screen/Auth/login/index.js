@@ -10,6 +10,7 @@ import {
 import {Button} from 'react-native-elements';
 import {Text} from 'react-native-elements';
 import styles from '../style';
+import {Root, Popup} from 'react-native-popup-confirm-toast';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {connect} from 'react-redux';
@@ -69,6 +70,14 @@ const LoginScreen = props => {
             password: true,
             email: false,
           });
+        } else {
+          Popup.show({
+            type: 'danger',
+            title: 'Error !',
+            textBody: error.response.data.msg,
+            buttonText: 'Close',
+            callback: () => Popup.hide(),
+          });
         }
         setIsLoading(false);
       }, 1000);
@@ -76,53 +85,63 @@ const LoginScreen = props => {
   };
   return (
     <ScrollView style={styles.bg}>
-      <View style={styles.container}>
-        <Image
-          source={require('../../../assets/images/logo.png')}
-          width={305}
-        />
+      <Root>
+        <View style={styles.container}>
+          <Image
+            source={require('../../../assets/images/logo.png')}
+            width={305}
+          />
 
-        <Text h3 style={styles.h1}>
-          Sign In
-        </Text>
-        <View>
-          <Text style={styles.label}>Email</Text>
-          <TextInput
-            style={[styles.input, isError.email ? styles.inputInvalid : '']}
-            placeholder="Input Your Email"
-            onChangeText={text => handleChangeForm(text, 'email')}
-          />
-          <Text style={isError.email ? styles.invalid : styles.none}>
-            Your Email Is Wrong
+          <Text h3 style={styles.h1}>
+            Sign In
+          </Text>
+          <View>
+            <Text style={styles.label}>Email</Text>
+            <TextInput
+              style={[styles.input, isError.email ? styles.inputInvalid : '']}
+              placeholder="Input Your Email"
+              onChangeText={text => handleChangeForm(text, 'email')}
+            />
+            <Text style={isError.email ? styles.invalid : styles.none}>
+              Your Email Is Wrong
+            </Text>
+          </View>
+          <View>
+            <Text style={styles.label}>Password</Text>
+            <TextInput
+              style={[
+                styles.input,
+                isError.password ? styles.inputInvalid : '',
+              ]}
+              placeholder="Enter Your Password"
+              secureTextEntry={true}
+              onChangeText={text => handleChangeForm(text, 'password')}
+            />
+            <Text style={isError.password ? styles.invalid : styles.none}>
+              Your Password Is Wrong
+            </Text>
+          </View>
+          <View style={{width: '100%'}}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={isLoading ? null : handleLogin}>
+              {isLoading ? (
+                <ActivityIndicator size="large" color="white" />
+              ) : (
+                <Text style={styles.buttonText}>Login Now</Text>
+              )}
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.alReady}>
+            Dont Have An Account ?{' '}
+            <Text
+              style={styles.alReadyLink}
+              onPress={() => props.navigation.navigate('Register')}>
+              Register
+            </Text>
           </Text>
         </View>
-        <View>
-          <Text style={styles.label}>Password</Text>
-          <TextInput
-            style={[styles.input, isError.password ? styles.inputInvalid : '']}
-            placeholder="Enter Your Password"
-            secureTextEntry={true}
-            onChangeText={text => handleChangeForm(text, 'password')}
-          />
-          <Text style={isError.password ? styles.invalid : styles.none}>
-            Your Password Is Wrong
-          </Text>
-        </View>
-        <View style={{width: '100%'}}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={isLoading ? null : handleLogin}>
-            {isLoading ? (
-              <ActivityIndicator size="large" color="white" />
-            ) : (
-              <Text style={styles.buttonText}>Login Now</Text>
-            )}
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.alReady}>
-          Do you already have an account ? Log in
-        </Text>
-      </View>
+      </Root>
     </ScrollView>
   );
 };
