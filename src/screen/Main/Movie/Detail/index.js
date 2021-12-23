@@ -10,6 +10,7 @@ import NoSchedule from '../../../../components/DetailMovie/noSchedule';
 import InputFilter from '../../../../components/DetailMovie/inputFilter';
 import LoadingSchedule from '../../../../components/DetailMovie/loadingSchedule';
 import styles from './style';
+import {URL_BACKEND} from '@env';
 
 const DetailMovie = props => {
   const params = props.route.params;
@@ -95,7 +96,7 @@ const DetailMovie = props => {
           <Image
             style={styles.imageView}
             source={{
-              uri: `http://192.168.100.22:3001/uploads/movie/${detailMovie.image}`,
+              uri: `${URL_BACKEND}uploads/movie/${detailMovie.image}`,
             }}
           />
         </View>

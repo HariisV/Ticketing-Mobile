@@ -8,20 +8,24 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
+  LogBox,
 } from 'react-native';
-import {Button} from 'react-native-elements';
 import styles from './style';
 import axios from '../../utils/axios';
+import {URL_BACKEND} from '@env';
 
 import UpcomingMovieList from '../../components/Home/upcoming';
+import ListMonth from '../../components/Home/listMonth';
 
 function App(props) {
   const [movieShowing, setMovieShowing] = useState([]);
   const [movieUpcoming, setMovieUpcoming] = useState([]);
+  const [movieActive, setMovieActive] = useState(0);
 
   useEffect(() => {
     getDataMovieShowing();
     getDataMovieUpcoming();
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
 
   const getDataMovieShowing = async () => {
@@ -41,6 +45,21 @@ function App(props) {
     } catch (error) {
       console.log(error);
     }
+  };
+  const handleActiveMovie = e => {
+    if (e === movieActive) {
+      setMovieActive(0);
+    } else {
+      setMovieActive(e);
+    }
+  };
+  const upcomingDetail = () => {
+    props.navigation.navigate('Main', {
+      screen: 'DetailMovie',
+      params: {
+        idMovie: movieActive,
+      },
+    });
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -66,20 +85,30 @@ function App(props) {
                   data={movieShowing}
                   navigation={props.navigation}
                   keyExtractor={item => item.id}
-                  renderItem={({item}) => {
-                    <View style={styles.card}>
-                      <Image
-                        source={require('../../assets/images/movie1.png')}
-                        style={styles.showingImage}
-                      />
-                    </View>;
-                  }}
                   renderItem={({item}) => (
                     <View style={styles.card}>
-                      <Image
-                        source={require('../../assets/images/movie1.png')}
-                        style={styles.showingImage}
-                      />
+                      <TouchableOpacity
+                        onPress={() => handleActiveMovie(item.id)}>
+                        <Image
+                          source={{
+                            uri: `${URL_BACKEND}uploads/movie/${item.image}`,
+                          }}
+                          style={styles.showingImage}
+                        />
+                      </TouchableOpacity>
+                      {movieActive === item.id ? (
+                        <View>
+                          <Text style={styles.showingTitle}>{item.name}</Text>
+                          <Text style={styles.showingCategory}>
+                            {item.category}
+                          </Text>
+                          <TouchableOpacity
+                            style={styles.buttonView}
+                            onPress={upcomingDetail}>
+                            <Text style={styles.showingBtn}>Detail</Text>
+                          </TouchableOpacity>
+                        </View>
+                      ) : null}
                     </View>
                   )}
                 />
@@ -93,21 +122,7 @@ function App(props) {
             </View>
             <View style={styles.listMonth}>
               <ScrollView horizontal={true}>
-                <Button
-                  color="black"
-                  title="September"
-                  buttonStyle={styles.listMonthItem}
-                />
-                <Button title="November" buttonStyle={styles.listMonthItem} />
-                <Button title="Desember" buttonStyle={styles.listMonthItem} />
-                <Button title="Januari" buttonStyle={styles.listMonthItem} />
-                <Button title="Februari" buttonStyle={styles.listMonthItem} />
-                <Button title="Maret" buttonStyle={styles.listMonthItem} />
-                <Button title="April" buttonStyle={styles.listMonthItem} />
-                <Button title="Mei" buttonStyle={styles.listMonthItem} />
-                <Button title="Juni" buttonStyle={styles.listMonthItem} />
-                <Button title="Juli" buttonStyle={styles.listMonthItem} />
-                <Button title="Agustus" buttonStyle={styles.listMonthItem} />
+                <ListMonth setMovieUpcoming={setMovieUpcoming} />
               </ScrollView>
             </View>
             <View>

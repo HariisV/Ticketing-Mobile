@@ -10,6 +10,7 @@ const Stack = createNativeStackNavigator();
 import Home from '../screen/home';
 import Profile from '../screen/Main/profile';
 import HistoryTransaction from '../screen/Main/history';
+import SearchScreen from '../screen/Main/Search';
 
 import DetailMovie from '../screen/Main/Movie/Detail';
 import OrderMovie from '../screen/Main/Movie/Order';
@@ -117,6 +118,8 @@ export default function App() {
                     iconName = focused ? 'albums' : 'albums-outline';
                   } else if (route.name === 'Profile') {
                     iconName = focused ? 'settings' : 'settings-outline';
+                  } else if (route.name === 'Search') {
+                    iconName = focused ? 'search-circle' : 'search';
                   }
 
                   return <Ionicons name={iconName} size={size} color={color} />;
@@ -129,7 +132,7 @@ export default function App() {
                 component={HomeScreen}
                 options={{headerShown: false}}
               />
-
+              <Tab.Screen name={'Search'} component={SearchScreen} />
               <Tab.Screen
                 name={'History Transaction'}
                 component={HistoryScreen}

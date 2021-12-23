@@ -9,8 +9,6 @@ const SplashScreen = props => {
 
   const checkAuth = async () => {
     try {
-      // props.navigation.navigate('AppScreen');
-      // props.navigation.navigate('AppScreen');
       const token = await AsyncStorage.getItem('token');
       setTimeout(() => {
         token

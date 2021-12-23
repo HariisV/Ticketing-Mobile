@@ -11,6 +11,7 @@ import {
 
 import {connect} from 'react-redux';
 import axios from '../../../../utils/axios';
+import Notification from '../../../../utils/notif';
 
 const CheckoutMovie = props => {
   const params = props.route.params.setData;
@@ -45,6 +46,7 @@ const CheckoutMovie = props => {
         seat: params.selectedSeat,
       };
       const result = await axios.post('/booking', setData);
+      Notification.reminderNotification();
       props.navigation.navigate('WaitingPayment', {
         url: result.data.data.paymentUrl,
       });

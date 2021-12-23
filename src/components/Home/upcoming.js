@@ -1,6 +1,8 @@
 import React from 'react';
 import styles from '../../screen/home/style';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {URL_BACKEND} from '@env';
+
 // import {API_TOKEN} from 'react-native-dotenv';
 
 export default function upcoming(props) {
@@ -16,7 +18,7 @@ export default function upcoming(props) {
     <View style={styles.cardUpcoming}>
       <Image
         source={{
-          uri: `http://192.168.100.22:3001/uploads/movie/${props.data.image}`,
+          uri: `${URL_BACKEND}uploads/movie/${props.data.image}`,
         }}
         style={styles.upcomingImage}
       />

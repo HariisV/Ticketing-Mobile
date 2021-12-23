@@ -113,7 +113,6 @@ const Profiles = props => {
   };
   const requestCameraPermission = async () => {
     try {
-      console.log('WAOWKOWKOAKW');
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.CAMERA,
         {
