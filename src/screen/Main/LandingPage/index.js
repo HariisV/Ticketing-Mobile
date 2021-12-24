@@ -6,6 +6,7 @@ import {
   Image,
   StatusBar,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import LottieView from 'lottie-react-native';
 
@@ -13,8 +14,11 @@ const LandingPage = props => {
   const handleChangePage = () => {
     props.navigation.navigate('Register');
   };
+  const handleChangePageLogin = () => {
+    props.navigation.navigate('Login');
+  };
   return (
-    <View style={styles.Wrapper}>
+    <ScrollView contentContainerStyle={styles.Wrapper}>
       <View style={styles.containerTop}>
         <Image
           source={require('../../../assets/images/logo-w.png')}
@@ -39,15 +43,20 @@ const LandingPage = props => {
           onPress={handleChangePage}>
           <Text style={styles.textButtonDetail}>Register</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.buttonDetail}
+          onPress={handleChangePageLogin}>
+          <Text style={styles.textButtonDetail}>Login</Text>
+        </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   Wrapper: {
     backgroundColor: '#5F2EEA',
-    height: '100%',
+    // height: '100%',
   },
   container: {
     // flex: 1,

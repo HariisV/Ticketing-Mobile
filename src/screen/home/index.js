@@ -35,7 +35,7 @@ function App(props) {
       );
       setMovieShowing(result.data.data);
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
     }
   };
   const getDataMovieUpcoming = async () => {
@@ -61,6 +61,7 @@ function App(props) {
       },
     });
   };
+  console.log(movieActive);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
@@ -86,7 +87,12 @@ function App(props) {
                   navigation={props.navigation}
                   keyExtractor={item => item.id}
                   renderItem={({item}) => (
-                    <View style={styles.card}>
+                    <View
+                      style={
+                        movieActive === item.id
+                          ? styles.cardActive
+                          : styles.card
+                      }>
                       <TouchableOpacity
                         onPress={() => handleActiveMovie(item.id)}>
                         <Image

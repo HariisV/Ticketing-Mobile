@@ -103,71 +103,71 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer independent={true}>
-      <Stack.Navigator>
-        <Stack.Screen name="Home Screen Tab" options={{headerShown: false}}>
-          {() => (
-            <Tab.Navigator
-              screenOptions={({route}) => ({
-                tabBarIcon: ({focused, color, size}) => {
-                  let iconName;
+    // <NavigationContainer independent={true}>
+    <Stack.Navigator>
+      <Stack.Screen name="Home Screen Tab" options={{headerShown: false}}>
+        {() => (
+          <Tab.Navigator
+            screenOptions={({route}) => ({
+              tabBarIcon: ({focused, color, size}) => {
+                let iconName;
 
-                  if (route.name === 'Home') {
-                    iconName = focused ? 'heart' : 'heart-circle-outline';
-                  } else if (route.name === 'History Transaction') {
-                    iconName = focused ? 'albums' : 'albums-outline';
-                  } else if (route.name === 'Profile') {
-                    iconName = focused ? 'settings' : 'settings-outline';
-                  } else if (route.name === 'Search') {
-                    iconName = focused ? 'search-circle' : 'search';
-                  }
+                if (route.name === 'Home') {
+                  iconName = focused ? 'heart' : 'heart-circle-outline';
+                } else if (route.name === 'History Transaction') {
+                  iconName = focused ? 'albums' : 'albums-outline';
+                } else if (route.name === 'Profile') {
+                  iconName = focused ? 'settings' : 'settings-outline';
+                } else if (route.name === 'Search') {
+                  iconName = focused ? 'search-circle' : 'search';
+                }
 
-                  return <Ionicons name={iconName} size={size} color={color} />;
-                },
-                tabBarActiveTintColor: '#5F2EEA',
-                tabBarInactiveTintColor: 'gray',
-              })}>
-              <Tab.Screen
-                name="Home"
-                component={HomeScreen}
-                options={{headerShown: false}}
-              />
-              <Tab.Screen name={'Search'} component={SearchScreen} />
-              <Tab.Screen
-                name={'History Transaction'}
-                component={HistoryScreen}
-              />
-              <Tab.Screen
-                name={'Profile'}
-                component={ProfileScreen}
-                options={{headerShown: false}}
-              />
-            </Tab.Navigator>
-          )}
-        </Stack.Screen>
-        <Stack.Screen
-          name="Main"
-          component={MainScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="MainProfileScreen"
-          component={MainProfileScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen name="WebViewScreen" component={WebView} />
-        <Stack.Screen
-          name="WaitingPayment"
-          component={WaitingPayment}
-          options={{
-            headerShown: false,
-          }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+                return <Ionicons name={iconName} size={size} color={color} />;
+              },
+              tabBarActiveTintColor: '#5F2EEA',
+              tabBarInactiveTintColor: 'gray',
+            })}>
+            <Tab.Screen
+              name="Home"
+              component={HomeScreen}
+              options={{headerShown: false}}
+            />
+            <Tab.Screen name={'Search'} component={SearchScreen} />
+            <Tab.Screen
+              name={'History Transaction'}
+              component={HistoryScreen}
+            />
+            <Tab.Screen
+              name={'Profile'}
+              component={ProfileScreen}
+              options={{headerShown: false}}
+            />
+          </Tab.Navigator>
+        )}
+      </Stack.Screen>
+      <Stack.Screen
+        name="Main"
+        component={MainScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="MainProfileScreen"
+        component={MainProfileScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen name="WebViewScreen" component={WebView} />
+      <Stack.Screen
+        name="WaitingPayment"
+        component={WaitingPayment}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </Stack.Navigator>
+    // </NavigationContainer>
   );
 }

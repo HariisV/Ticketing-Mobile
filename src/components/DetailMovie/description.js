@@ -4,8 +4,6 @@ import styles from '../../screen/Main/Movie/Detail/style';
 import moment from 'moment';
 
 export default function description(props) {
-  console.log('PROPS => ', props);
-  // June 28, 2017
   let releaseDate = moment(props.data.releaseDate).format('MMM / DD / YYYY');
 
   return (

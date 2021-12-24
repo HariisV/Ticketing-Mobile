@@ -50,7 +50,6 @@ const Register = props => {
       console.log(error.response.data.msg);
     }
   };
-  console.log(isError);
   return (
     <ScrollView style={styles.bg}>
       <Root>

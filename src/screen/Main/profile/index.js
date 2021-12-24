@@ -28,29 +28,11 @@ const Profiles = props => {
   };
 
   const handleLogout = () => {
-    // getToken();
-    // console.log(props);
-    // alert('Berhasil Apus');
     AsyncStorage.clear();
-    // props.navigation.dispatch(
-    //   NavigationActions.reset({
-    //     index: 0,
-    //     actions: [NavigationActions.navigate({routeName: 'AuthScreen'})],
-    //   }),
-    // );
-    // props.navigation.dispatch(
-    //   StackActions.replace('Home', {test: 'Test Params'}),
-    // );
-    // props.navigation.navigate('Main');
-    // props.navigation.navigate('AuthScreen', {screen: 'Login'});
-    // props.navigation.navigate('AuthScreen', {screen: 'Login'});
-    // props.navigation.navigate('MainProfileScreen', {
-    //   screen: data,
-    // });
-    // props.navigation.navigate({routeName: 'AuthScreen'});
-    // console.log(props.navigation());
-    // console.log('HAII');
-    // props.navigation.navigate('Login');
+    // console.log('running1');
+    props.navigation.navigate('AuthScreen', {
+      screen: 'LandingPage',
+    });
   };
   const functionImageLibrary = () => {
     let options = {

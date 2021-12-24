@@ -62,62 +62,65 @@ const SearchScreen = props => {
   };
 
   const handleLoadMore = () => {
-    console.log('HAI');
     if (page <= maxPage) {
       setPage(page + 1);
+    } else {
+      setLast(true);
     }
-    //  else {
-    //   setLast(true);
-    // }
   };
+
   const buttonSearch = () => {
     setPage(1);
     handleSearch();
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollView}>
-      <View style={styles.container}>
-        <View style={[styles.inputContainer, styles.inputTimes]}>
-          <TextInput
-            style={styles.inputSearch}
-            onChangeText={e => handleInput(e)}
-            value={input}
-            placeholder="Search A Name Movie"></TextInput>
-          <TouchableOpacity style={styles.button} onPress={buttonSearch}>
-            {isLoading ? (
-              <ActivityIndicator
-                size="large"
-                style={styles.inputIcon}
-                color="#00ff00"
-              />
-            ) : (
-              <Icon name="search" style={styles.inputIcon} />
-            )}
-          </TouchableOpacity>
-        </View>
-        <FlatList
-          data={listMovie}
-          keyExtractor={item => item.id}
-          onEndReached={handleLoadMore}
-          onEndReachedThreshold={0.1}
-          ListFooterComponent={() =>
-            last ? (
-              <View style={styles.sectionBottom}>
-                <Text style={styles.sectionBottomText} style={styles.noMore}>
-                  -- No more data --
-                </Text>
-              </View>
-            ) : loading ? (
-              <ActivityIndicator size="large" color="blue" />
-            ) : null
-          }
-          renderItem={({item}) => (
-            <CardMovie navigation={props.navigation} data={item} />
+    <View style={styles.container}>
+      <View
+        style={{
+          backgroundColor: 'white',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}>
+        <TextInput
+          style={styles.inputSearch}
+          onChangeText={e => handleInput(e)}
+          value={input}
+          placeholder="Search A Name Movie"></TextInput>
+        <TouchableOpacity style={styles.button} onPress={buttonSearch}>
+          {isLoading ? (
+            <ActivityIndicator
+              size="large"
+              style={styles.inputIcon}
+              color="#00ff00"
+            />
+          ) : (
+            <Icon name="search" style={styles.inputIcon} />
           )}
-        />
+        </TouchableOpacity>
       </View>
-    </ScrollView>
+      <FlatList
+        data={listMovie}
+        keyExtractor={item => item.id}
+        onEndReached={handleLoadMore}
+        onEndReachedThreshold={0.1}
+        ListFooterComponent={() =>
+          last ? (
+            <View style={styles.sectionBottom}>
+              <Text style={styles.sectionBottomText} style={styles.noMore}>
+                -- No more data --
+              </Text>
+            </View>
+          ) : loading ? (
+            <ActivityIndicator size="large" color="blue" />
+          ) : null
+        }
+        renderItem={({item}) => (
+          <CardMovie navigation={props.navigation} data={item} />
+        )}
+      />
+    </View>
   );
 };
 

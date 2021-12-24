@@ -269,6 +269,16 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     marginRight: 30,
     width: 250,
+    height: 380,
+  },
+  cardActive: {
+    padding: 30,
+    borderColor: '#DEDEDE',
+    borderWidth: 1,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    marginRight: 30,
+    width: 250,
     // height: '100%',
   },
   buttonView: {

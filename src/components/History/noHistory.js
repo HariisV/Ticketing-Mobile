@@ -3,7 +3,6 @@ import {View, Text, Image, TouchableOpacity} from 'react-native';
 // import styles from '../screen/main/history/style';
 import styles from '../../screen/Main/history/style';
 const ListHistory = props => {
-  console.log(props);
   const handleChangePage = () => {
     props.navigation.navigate('Home');
   };
